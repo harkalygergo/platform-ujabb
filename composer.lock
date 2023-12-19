@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce6cbc97b9e9008a7465a851327f232c",
+    "content-hash": "ef78c59a001018acf0666058f8da1622",
     "packages": [
         {
             "name": "composer/semver",
@@ -7392,6 +7392,45 @@
                 "source": "https://github.com/twbs/bootstrap/tree/v5.3.2"
             },
             "time": "2023-09-14T14:19:27+00:00"
+        },
+        {
+            "name": "twbs/bootstrap-icons",
+            "version": "v1.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/icons.git",
+                "reference": "108565f11f099f177b31929e3eafc2c8d497fcd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/icons/zipball/108565f11f099f177b31929e3eafc2c8d497fcd1",
+                "reference": "108565f11f099f177b31929e3eafc2c8d497fcd1",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "Official open source SVG icon library for Bootstrap",
+            "homepage": "https://icons.getbootstrap.com/",
+            "keywords": [
+                "bootstrap",
+                "icon font",
+                "icons",
+                "svg"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/icons/issues",
+                "source": "https://github.com/twbs/icons/tree/v1.11.2"
+            },
+            "time": "2023-11-21T20:06:00+00:00"
         },
         {
             "name": "twig/extra-bundle",
