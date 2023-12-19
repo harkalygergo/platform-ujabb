@@ -9,10 +9,25 @@ Platform is a multisite and multilingual compatibility Business Management Syste
 ### Developer Book
 
 Based on:
-- latest Symfony PHP Framework
-- latest Bootstrap
+- latest Symfony PHP Framework (https://symfony.com)
+- latest Bootstrap (https://getbootstrap.com)
 
 Versions under Git History.
+
+---
+
+## Symfony commands
+
+```shell
+# create new Controller
+symfony console make:controller NewController
+# create new Entity
+php bin/console make:entity
+# create a migrations
+php bin/console make:migration
+# run migrations
+php bin/console doctrine:migrations:migrate
+```
 
 ---
 
