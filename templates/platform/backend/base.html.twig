@@ -1,0 +1,62 @@
+{% extends 'platform/base.html.twig' %}
+
+{% block style %}
+<style>
+    .bi {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+    }
+    @media (min-width: 768px) {
+        .sidebar .offcanvas-lg {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 48px;
+        }
+        .navbar-search {
+            display: block;
+        }
+    }
+    .sidebar .nav-link {
+        font-size: .875rem;
+        font-weight: 500;
+    }
+    .sidebar .nav-link.active {
+        color: #2470dc;
+    }
+    .sidebar-heading {
+        font-size: .75rem;
+    }
+    .navbar-brand {
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+        background-color: rgba(0, 0, 0, .25);
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+    }
+    .navbar .form-control {
+        padding: .75rem 1rem;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+{{ include('platform/backend/navbar.html.twig') }}
+
+{{ include('platform/backend/header.html.twig') }}
+
+<div class="container-fluid">
+    <div class="row">
+
+        {{ include('platform/backend/sidebar.html.twig') }}
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+            {% block main %}{% endblock %}
+
+        </main>
+    </div>
+</div>
+
+{% endblock %}
