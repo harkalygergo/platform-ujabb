@@ -1,0 +1,172 @@
+{% set array = {
+    'CMS': {
+        'websites': '<i class="bi bi-globe"></i> Weboldal',
+        'webshops': '<i class="bi bi-cart"></i> Webáruház',
+        'webapplications': '<i class="bi bi-window"></i> Webalkalmazás',
+        'mobilapplications': '<i class="bi bi-phone"></i> Mobilalkalmazás',
+    },
+    'CRM': {
+        'clients': '<i class="bi bi-person"></i> Ügyféllista',
+        'newsletter': '<i class="bi bi-person"></i> Hírlevél',
+        'forms': '<i class="bi bi-person"></i> Űrlapok',
+        'automatizmusok': '<i class="bi bi-person"></i> Automatizmusok',
+    },
+    'Eszközök': {
+        'clients': '<i class="bi bi-person"></i> Link rövidítés',
+        'exportimport': '<i class="bi bi-person"></i> Export/import',
+    }
+}
+%}
+
+<div class="sidebar col-md-3 col-lg-2 p-0 bg-dark text-white">
+    <div class="offcanvas-md offcanvas-end" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Platform</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-md-flex flex-column p-0 overflow-y-auto vh-100">
+
+            <!-- FŐ -->
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+                <span><i class="bi bi-star"></i> Kedvencek</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i>nincs kedvenc</i>
+                    </a>
+                </li>
+            </ul>
+            <hr>
+
+            {% for key, value in array %}
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+                    <span>{{ key }}</span>
+                </h6>
+                <ul class="nav flex-column">
+                    {% for k, va in value %}
+                        <li class="nav-item">
+                            <a class="nav-link text-light d-flex align-items-center gap-2" href="{{ k }}">
+                                {{ va|raw }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+            {% endfor %}
+            <!-- /FŐ -->
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+                <span>Profil</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-bell"></i>
+                        Értesítések
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-calendar"></i>
+                        Naptárbejegyzések
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-envelope-arrow-up"></i>
+                        Rendszerüzenetek
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-card-text"></i>
+                        Jegyzet
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-hdd"></i>
+                        Tárhely
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-alarm"></i>
+                        Munkaidő-nyilvántartás
+                    </a>
+                </li>
+            </ul>
+            <hr>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+                <span>Számlázás</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-plugin"></i>
+                        Szolgáltatások
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-files"></i>
+                        Számlák
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-receipt"></i>
+                        Számlázási fiókok
+                    </a>
+                </li>
+            </ul>
+            <hr>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+                <span>Beállítások</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-person"></i> Profil szerkesztése
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-telephone"></i> Elérhetőségek szerkesztése
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-lock"></i> Jelszó módosítása
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-envelope"></i>
+                        Szinkronizált e-mail fiókok
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-calendar"></i>
+                        Szinkronizált naptárak
+                    </a>
+                </li>
+            </ul>
+
+            <hr>
+
+            <ul class="nav flex-column bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Kijelentkezés
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
