@@ -14,4 +14,13 @@ class IndexController extends AbstractController
         return $this->render('platform/backend/v1/index.html.twig', [
         ]);
     }
+
+    #[Route('/account/edit', name: 'account_edit')]
+    public function accountEdit(): Response
+    {
+        return $this->render('platform/backend/v1/content.html.twig', [
+            'title' => '<i class="bi bi-person"></i> Profil szerkesztése',
+            'content' => '',
+        ]);
+    }
 }
