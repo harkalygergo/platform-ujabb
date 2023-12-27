@@ -4,6 +4,19 @@ Platform is a multisite and multilingual compatibility Business Management Syste
 
 ---
 
+## How to install?
+
+1. Clone source code from GitHub
+2. Copy `.env.dist` to `.env` and modify.
+
+## How to update?
+
+One line command to update:
+
+```shell
+git status; git pull; php bin/console doctrine:migrations:migrate; composer update; composer dump-autoload -o;
+```
+
 ## Documentations
 
 ### Developer Book
@@ -11,6 +24,7 @@ Platform is a multisite and multilingual compatibility Business Management Syste
 Based on:
 - latest Symfony PHP Framework (https://symfony.com)
 - latest Bootstrap (https://getbootstrap.com)
+- latest chart.js (https://www.chartjs.org/)
 
 Versions under Git History.
 
