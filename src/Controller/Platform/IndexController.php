@@ -21,7 +21,7 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        return new Response('restricted area');
+        return new Response();
     }
 
     #[Route('/admin/', name: 'admin_index')]
