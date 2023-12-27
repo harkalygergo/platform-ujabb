@@ -55,14 +55,15 @@ class TaskController extends AbstractController
         }
 
         $i = 0;
-        $a = '<table class="table table-striped"><thead><tr><th>#</th><th>Cím</th><th>Tartalom</th></tr></thead><tbody>';
+        $a = '<div class="row"><div class="col-sm-6"><h2>Feladatok listázása</h2></div><div class="col-sm-6 text-end"><button class="btn btn-primary default-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> + Add New </button></div></div>';
+        $a .= '<table class="table table-striped"><thead><tr><th>#</th><th>Cím</th><th>Tartalom</th><th class="text-end">Eszközök</th></tr></thead><tbody>';
         foreach ($tasks as $task) {
-            $a .= '<tr><td>'.++$i.'.</td><td>'.$task->getTitle().'</td><td>'.$task->getDescription().'</td></tr>';
+            $a .= '<tr><td>'.++$i.'.</td><td>'.$task->getTitle().'</td><td>'.$task->getDescription().'</td><td class="text-end">szerkesztés duplikálás</td></tr>';
         }
         $a .= '</tbody></table>';
 
         $data = [
-            'title' => '<i class="bi bi-list-task"></i> Feladatkezelő',
+            'title' => '<i class="bi bi-list-task"></i> Feladatkezelő<hr>',
             'content' => $a,
             'form' => $form
         ];
