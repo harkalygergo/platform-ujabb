@@ -21,11 +21,17 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
+        return new Response('restricted area');
+    }
+
+    #[Route('/admin/', name: 'admin_index')]
+    public function adminIndex(): Response
+    {
         return $this->render('platform/backend/v1/index.html.twig', [
         ]);
     }
 
-    #[Route('/account/edit', name: 'account_edit')]
+    #[Route('/admin/account/edit', name: 'account_edit')]
     public function accountEdit(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         // creates a task object and initializes some data for this example

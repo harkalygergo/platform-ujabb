@@ -17,7 +17,7 @@ class TaskController extends AbstractController
 {
     public function __construct(private ManagerRegistry $doctrine) {}
 
-    #[Route('/task', name: 'app_task')]
+    #[Route('/admin/task', name: 'app_task')]
     public function index(Request $request, TaskRepository $repository): Response
     {
         $tasks = $repository->findAll();
