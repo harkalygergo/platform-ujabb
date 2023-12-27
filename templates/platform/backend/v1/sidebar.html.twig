@@ -1,6 +1,11 @@
 {% set array = {
+    '<a class="nav-link text-light" href="/"><span><i class="bi bi-speedometer2"></i> Vezérlőpult</span></a>': {
+    },
+    '<span><i class="bi bi-star"></i> Kedvencek</span>': {
+        'intranet': '<i class="bi bi-info-square"></i> Intranet',
+    },
     'ERP | Vállalkozásirányítás': {
-        'tasks': '<i class="bi bi-list-task"></i> Feladatkezelő',
+        'task': '<i class="bi bi-list-task"></i> Feladatkezelő',
         'idopontfoglalo': '<i class="bi bi-calendar-plus"></i> Időpontfoglaló <small>(szolgáltatóknak)</small>',
         'realestate': '<i class="bi bi-buildings"></i> Ingatlanbázis <small>(ügynökségeknek)</small>',
     },
@@ -40,25 +45,9 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 overflow-y-auto vh-100">
 
             <!-- FŐ -->
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
-                <span><a class="nav-link text-light" href="/"><i class="bi bi-speedometer2"></i> Vezérlőpult</a></span>
-            </h6>
-            <hr>
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
-                <span><i class="bi bi-star"></i> Kedvencek</span>
-            </h6>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-light d-flex align-items-center gap-2" href="#">
-                        <i>nincs kedvenc</i>
-                    </a>
-                </li>
-            </ul>
-            <hr>
-
             {% for key, value in array %}
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
-                    <span>{{ key }}</span>
+                    <span>{{ key|raw }}</span>
                 </h6>
                 <ul class="nav flex-column">
                     {% for k, va in value %}
