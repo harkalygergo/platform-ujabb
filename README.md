@@ -23,6 +23,7 @@ git status; git pull; php bin/console doctrine:migrations:migrate; composer upda
 
 Based on:
 - latest Symfony PHP Framework (https://symfony.com)
+- latest Twig template engine (https://twig.symfony.com/)
 - latest Bootstrap (https://getbootstrap.com)
 - latest chart.js (https://www.chartjs.org/)
 

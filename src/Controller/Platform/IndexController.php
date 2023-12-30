@@ -18,20 +18,20 @@ class IndexController extends AbstractController
 {
     public function __construct(private ManagerRegistry $doctrine) {}
 
-    #[Route('/', name: 'app_index')]
+    #[Route('/{_locale}/', name: 'app_index')]
     public function index(): Response
     {
         return new Response();
     }
 
-    #[Route('/admin/', name: 'admin_index')]
+    #[Route('/{_locale}/admin/', name: 'admin_index')]
     public function adminIndex(): Response
     {
         return $this->render('platform/backend/v1/index.html.twig', [
         ]);
     }
 
-    #[Route('/admin/account/edit', name: 'account_edit')]
+    #[Route('/{_locale}/admin/account/edit', name: 'account_edit')]
     public function accountEdit(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         // creates a task object and initializes some data for this example
