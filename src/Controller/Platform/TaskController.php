@@ -24,9 +24,10 @@ class TaskController extends AbstractController
     public function index(TaskRepository $repository): Response
     {
         $tasks = $repository->findAll();
+        $newUrl = $this->generateUrl('admin_task_new');
 
         $i = 0;
-        $datalist = '<div class="row"><div class="col-sm-6"><h2>Feladatok listázása</h2></div><div class="col-sm-6 text-end"><a href="#" class="btn btn-success default-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"> + Add New </a></div></div>';
+        $datalist = '<div class="row"><div class="col-sm-6"><h2>Feladatok listázása</h2></div><div class="col-sm-6 text-end"><a href="'.$newUrl.'" class="btn btn-success default-btn"> + Add New </a></div></div>';
         $datalist .= '<table class="table table-striped"><thead><tr><th>#</th><th>Cím</th><th>Tartalom</th><th class="text-end">Eszközök</th></tr></thead><tbody>';
         foreach ($tasks as $task) {
             $datalist .= '<tr><td>' . ++$i . '.</td><td>' . $task->getTitle() . '</td><td>' . $task->getDescription() . '</td><td class="text-end">szerkesztés duplikálás</td></tr>';
