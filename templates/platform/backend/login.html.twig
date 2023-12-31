@@ -1,0 +1,68 @@
+{% extends 'platform/base.html.twig' %}
+
+{% block style %}
+    <style>
+        body {
+            background-color:rgb(33, 37, 41);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-lg bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-md-5">
+
+                            <h2 class="fw-bold mb-2 text-uppercase">Platform</h2>
+                            <p class="text-white-50 mb-5">Your Business Management System</p>
+                            <div class="text-start">
+
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="typeEmailX"><i class="bi bi-person"></i> Login</label>
+                                    <input type="email" id="typeEmailX" class="form-control form-control-lg bg-dark text-white" />
+                                </div>
+
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="typePasswordX"><i class="bi bi-lock"></i> Password</label>
+                                    <input type="password" id="typePasswordX" class="form-control form-control-lg bg-dark text-white" />
+                                </div>
+
+                                <div class="form-outline form-white mb-4 form-group">
+                                    <label for="languageSelector"><i class="bi bi-translate"></i> Language</label>
+                                    <select class="form-control form-control-lg bg-dark text-white" id="languageSelector">
+                                        <option>english</option>
+                                        <option>magyar</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-outline form-white mb-4 form-check">
+                                    <input class="form-check-input bg-dark text-white" type="checkbox" value="" id="keepLoggedIn">
+                                    <label class="form-check-label" for="keepLoggedIn">
+                                        Keep in logged in
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-outline-light btn-lg px-5" type="submit">Login <i class="bi bi-box-arrow-in-right"></i></button>
+
+                            <p class="small mt-5"><a class="text-white-50" href="#!">Forgot password?</a></p>
+
+                        </div>
+
+                        <div>
+                            <p class="mb-0">Don't have an account? <a href="tel:+36305512337" class="text-white-50 fw-bold">+36305512337</a></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
