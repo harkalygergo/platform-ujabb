@@ -1,5 +1,9 @@
 global:
+    add new: 'új hozzáadása'
     login: 'Bejelentkezés'
     save: 'Mentés'
+date:
+    createdAt: 'Létrejött'
+    updatedAt: 'Frissítve'
 admin:
     dashboard: 'Vezérlőpult'

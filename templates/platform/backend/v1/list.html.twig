@@ -1,0 +1,45 @@
+{% extends 'platform/backend/v1/base.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>{{ title|raw }}</h1>
+        </div>
+        <div class="col-sm-6 text-end">
+            <a href="new/" class="btn btn-success btn-lg"> + {{ 'global.add new'|trans }}</a>
+        </div>
+    </div>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cím</th>
+                    <th>Tartalom</th>
+                    <th class="text-end">{{ 'date.createdAt'|trans }}</th>
+                    <th class="text-end">{{ 'date.updatedAt'|trans }}</th>
+                    <th class="text-end">Eszközök</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in dataList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ data.title }}</td>
+                        <td>{{ data.description }}</td>
+                        <td class="text-end">{{ data.createdAt.format('Y-m-d H:i:s') }}</td>
+                        <td class="text-end">{% if data.updatedAt is not null %}{{ data.updatedAt.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                        <td class="text-end">
+                            <a href="edit/{{ data.id }}"><i class="bi bi-pencil"></i> szerkesztés</a>
+                            <a href="#"><i class="bi bi-copy"></i> duplikálás</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <small>Összesen: {{ dataList|length }} darab</small>
+    </div>
+{% endblock %}

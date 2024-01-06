@@ -1,5 +1,9 @@
 global:
+    add new: 'add new'
     login: 'Login'
     save: 'Save'
+date:
+    createdAt: 'Created at'
+    updatedAt: 'Updated at'
 admin:
     dashboard: 'Dashboard'
