@@ -31,8 +31,8 @@
                         <td class="text-end">{{ data.createdAt.format('Y-m-d H:i:s') }}</td>
                         <td class="text-end">{% if data.updatedAt is not null %}{{ data.updatedAt.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
                         <td class="text-end">
-                            <a href="edit/{{ data.id }}"><i class="bi bi-pencil"></i> szerkesztés</a>
-                            <a href="#"><i class="bi bi-copy"></i> duplikálás</a>
+                            <a class="btn btn-sm btn-primary" href="edit/{{ data.id }}"><i class="bi bi-pencil"></i> szerkesztés</a>
+                            <a class="btn btn-sm btn-warning" href="#"><i class="bi bi-copy"></i> duplikálás</a>
                         </td>
                     </tr>
                 {% endfor %}
