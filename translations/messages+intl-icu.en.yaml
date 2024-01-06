@@ -1,4 +1,5 @@
 global:
     login: 'Login'
+    save: 'Save'
 admin:
     dashboard: 'Dashboard'

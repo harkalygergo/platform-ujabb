@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TaskController extends AbstractController
 {
@@ -43,7 +44,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{_locale}/admin/task/new', name: 'admin_task_new')]
-    public function new(Request $request)
+    public function new(Request $request, TranslatorInterface $translator)
     {
         $entity = new Task();
 
@@ -59,7 +60,7 @@ class TaskController extends AbstractController
                 ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Frissítés',
+                'label' => $translator->trans('global.save'),
                 'attr' => [
                     'class' => 'my-1 btn btn-lg btn-success'
                 ]

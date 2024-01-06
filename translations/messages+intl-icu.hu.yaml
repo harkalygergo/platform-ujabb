@@ -1,4 +1,5 @@
 global:
     login: 'Bejelentkezés'
+    save: 'Mentés'
 admin:
     dashboard: 'Vezérlőpult'

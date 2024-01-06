@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IndexController extends AbstractController
 {
@@ -32,7 +33,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/{_locale}/admin/account/edit', name: 'account_edit')]
-    public function accountEdit(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    public function accountEdit(Request $request, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher): Response
     {
         // creates a task object and initializes some data for this example
         $user = new User();
@@ -54,7 +55,7 @@ class IndexController extends AbstractController
                 ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Frissítés',
+                'label' => $translator->trans('global.save'),
                 'attr' => [
                     'class' => 'my-1 btn btn-lg btn-success'
                 ]
@@ -117,6 +118,6 @@ class IndexController extends AbstractController
             $data['notification'] = $user->getUsername(). ' felhasználó sikeresen létrehozva.';
         }
 
-        return $this->render('platform/backend/v1/content.html.twig', $data);
+        return $this->render('platform/backend/v1/form.html.twig', $data);
     }
 }
