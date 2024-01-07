@@ -1,7 +1,13 @@
 global:
     add new: 'add new'
+    identifier: 'Identifier'
     login: 'Login'
+    language: 'Language'
+    password: 'Password'
     save: 'Save'
+    forgotPassword: "Forgot password"
+    dontHaveAccount: "Don't have an account?"
+    keepLoggedIn: 'Keep me logged in'
 date:
     createdAt: 'Created at'
     updatedAt: 'Updated at'

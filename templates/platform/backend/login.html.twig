@@ -23,17 +23,17 @@
                             <div class="text-start">
 
                                 <div class="form-outline form-white mb-4">
-                                    <label class="form-label" for="typeEmailX"><i class="bi bi-person"></i> Login</label>
+                                    <label class="form-label" for="typeEmailX"><i class="bi bi-person"></i> {{ 'global.identifier'|trans }}</label>
                                     <input type="email" id="typeEmailX" class="form-control form-control-lg bg-dark text-white" />
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    <label class="form-label" for="typePasswordX"><i class="bi bi-lock"></i> Password</label>
+                                    <label class="form-label" for="typePasswordX"><i class="bi bi-lock"></i> {{ 'global.password'|trans }}</label>
                                     <input type="password" id="typePasswordX" class="form-control form-control-lg bg-dark text-white" />
                                 </div>
 
                                 <div class="form-outline form-white mb-4 form-group">
-                                    <label for="languageSelector"><i class="bi bi-translate"></i> Language</label>
+                                    <label for="languageSelector"><i class="bi bi-translate"></i> {{ 'global.language'|trans }}</label>
                                     <select class="form-control form-control-lg bg-dark text-white" id="languageSelector">
                                         <option>english</option>
                                         <option>magyar</option>
@@ -43,19 +43,19 @@
                                 <div class="form-outline form-white mb-4 form-check">
                                     <input class="form-check-input bg-dark text-white" type="checkbox" value="" id="keepLoggedIn">
                                     <label class="form-check-label" for="keepLoggedIn">
-                                        Keep in logged in
+                                        {{ 'global.keepLoggedIn'|trans }}
                                     </label>
                                 </div>
                             </div>
 
-                            <button class="btn btn-outline-light btn-lg px-5" type="submit">Login <i class="bi bi-box-arrow-in-right"></i></button>
+                            <button class="btn btn-outline-light btn-lg px-5" type="submit">{{ 'global.login'|trans }} <i class="bi bi-box-arrow-in-right"></i></button>
 
-                            <p class="small mt-5"><a class="text-white-50" href="#!">Forgot password?</a></p>
+                            <p class="small mt-5"><a class="text-white-50" href="#!">{{ 'global.forgotPassword'|trans }}</a></p>
 
                         </div>
 
                         <div>
-                            <p class="mb-0">Don't have an account? <a href="tel:+36305512337" class="text-white-50 fw-bold">+36305512337</a></p>
+                            <p class="mb-0">{{ 'global.dontHaveAccount'|trans }} <a href="tel:+36305512337" class="text-white-50 fw-bold">+36305512337</a></p>
                         </div>
 
                     </div>

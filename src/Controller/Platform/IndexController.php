@@ -19,12 +19,6 @@ class IndexController extends AbstractController
 {
     public function __construct(private ManagerRegistry $doctrine) {}
 
-    #[Route('/{_locale}/', name: 'app_index')]
-    public function index(): Response
-    {
-        return new Response();
-    }
-
     #[Route('/{_locale}/admin/', name: 'admin_index')]
     public function adminIndex(): Response
     {
