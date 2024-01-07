@@ -8,6 +8,7 @@ global:
     forgotPassword: "Forgot password"
     dontHaveAccount: "Don't have an account?"
     keepLoggedIn: 'Keep me logged in'
+    website: 'Website'
 date:
     createdAt: 'Created at'
     updatedAt: 'Updated at'
