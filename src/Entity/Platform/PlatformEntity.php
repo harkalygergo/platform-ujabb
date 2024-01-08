@@ -13,6 +13,9 @@ class PlatformEntity
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $updatedAt;
 
+    #[ORM\Column(length: 8)]
+    private int $status = 0;
+
     /**
      * @return mixed
      */
@@ -43,5 +46,15 @@ class PlatformEntity
     public function setUpdatedAt($updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

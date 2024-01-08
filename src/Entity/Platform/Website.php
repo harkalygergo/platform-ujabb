@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WebsiteRepository::class)]
-class Website extends PlatformEntity
+class Website
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,6 +19,9 @@ class Website extends PlatformEntity
 
     #[ORM\Column(length: 128)]
     private ?int $instance = null;
+
+    #[ORM\Column(length: 8)]
+    private int $status = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
@@ -81,6 +84,16 @@ class Website extends PlatformEntity
     public function setInstance(?int $instance): void
     {
         $this->instance = $instance;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 
     public function getDomain(): ?string
