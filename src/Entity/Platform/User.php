@@ -22,6 +22,9 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $fullName = null;
 
+    #[ORM\Column(length: 8, nullable: true)]
+    private ?string $language = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,5 +64,15 @@ class User
         $this->fullName = $fullName;
 
         return $this;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?string $language): void
+    {
+        $this->language = $language;
     }
 }

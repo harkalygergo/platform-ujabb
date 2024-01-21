@@ -5,6 +5,7 @@ namespace App\Controller\Platform;
 use App\Entity\Platform\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -48,10 +49,19 @@ class IndexController extends AbstractController
                     'class' => 'form-control'
                 ]
             ])
+            ->add('language', ChoiceType::class, [
+                'choices'  => [
+                    'english' => 'en',
+                    'magyar' => 'hu',
+                ],
+                'attr' => [
+                    'class' => 'form-control form-control-lg'
+                ]
+            ])
             ->add('save', SubmitType::class, [
                 'label' => $translator->trans('global.save'),
                 'attr' => [
-                    'class' => 'my-1 btn btn-lg btn-success'
+                    'class' => 'my-2 btn btn-lg btn-success'
                 ]
             ])
             ->getForm();
