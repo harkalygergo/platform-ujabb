@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/{_locale?}/', name: 'admin_login')]
+    #[Route('/{_locale?}', name: 'admin_login')]
     public function login(Request $request, Security $security, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
         $form = $this->createFormBuilder()
