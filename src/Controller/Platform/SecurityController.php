@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,21 +18,30 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/{_locale?}', name: 'admin_login')]
+    #[Route('/', name: 'admin_login_language_redirect')]
+    public function loginLanguageRedirect(): RedirectResponse
+    {
+        return $this->redirect('/' . substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) );
+    }
+
+    #[Route('/{_locale}', name: 'admin_login')]
     public function login(Request $request, Security $security, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
         $form = $this->createFormBuilder()
             ->add('username', TextType::class, [
+                'label' => $translator->trans('global.identifier'),
                 'attr' => [
                     'class' => 'form-control form-control-lg bg-dark text-white'
                 ]
             ])
             ->add('password', PasswordType::class, [
+                'label' => $translator->trans('global.password'),
                 'attr' => [
                     'class' => 'form-control form-control-lg bg-dark text-white'
                 ]
             ])
             ->add('language', ChoiceType::class, [
+                'label' => $translator->trans('global.language'),
                 'choices'  => [
                     'english' => 'en',
                     'magyar' => 'hu',
@@ -41,7 +51,7 @@ class SecurityController extends AbstractController
                 ]
             ])
             ->add('keep_logged_in', CheckboxType::class, [
-                'label'    => 'Keep me logged in',
+                'label' => $translator->trans('global.keepLoggedIn'),
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input bg-dark text-white'
