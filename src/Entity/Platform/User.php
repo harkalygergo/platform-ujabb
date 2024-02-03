@@ -3,11 +3,20 @@
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    // We can use constants for roles to find usages all over the application rather
+    // than doing a full-text search on the "ROLE_" string.
+    // It also prevents from making typo errors.
+    final public const ROLE_USER = 'ROLE_USER';
+    final public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,6 +33,12 @@ class User
 
     #[ORM\Column(length: 8, nullable: true)]
     private ?string $language = null;
+
+    /**
+     * @var string[]
+     */
+    #[ORM\Column(type: Types::JSON, options: ["default" => self::ROLE_USER])]
+    private array $roles = [];
 
     public function getId(): ?int
     {
@@ -74,5 +89,28 @@ class User
     public function setLanguage(?string $language): void
     {
         $this->language = $language;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        // guarantees that a user always has at least one role for security
+        if (empty($roles)) {
+            $roles[] = self::ROLE_USER;
+        }
+
+        return array_unique($roles);
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
     }
 }
