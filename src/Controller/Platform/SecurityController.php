@@ -60,7 +60,7 @@ class SecurityController extends AbstractController
             ->add('submit', SubmitType::class, [
                 'label' => $translator->trans('global.login'),
                 'attr' => [
-                    'class' => 'btn btn-outline-light btn-lg px-5 m-5'
+                    'class' => 'btn btn-outline-light btn-lg px-5 my-3'
                 ]
             ])
             ->getForm();

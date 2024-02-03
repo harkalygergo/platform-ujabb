@@ -3,6 +3,7 @@
 namespace App\Controller\Platform;
 
 use App\Entity\Platform\Task;
+use App\Entity\Platform\User;
 use App\Repository\Platform\TaskRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,8 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted(User::ROLE_USER)]
 class TaskController extends AbstractController
 {
     public function __construct(private ManagerRegistry $doctrine)

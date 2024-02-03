@@ -31,7 +31,7 @@ security:
                 check_path: security_login
                 # The name of the route where the login form lives
                 # When the user tries to access a protected page, they are redirected here
-                login_path: security_login
+                login_path: admin_login
                 # Secure the login form against CSRF
                 # Reference: https://symfony.com/doc/current/security/csrf.html
                 enable_csrf: true

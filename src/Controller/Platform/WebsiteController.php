@@ -2,6 +2,7 @@
 
 namespace App\Controller\Platform;
 
+use App\Entity\Platform\User;
 use App\Entity\Platform\Website;
 use App\Repository\Platform\WebsiteRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,8 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted(User::ROLE_USER)]
 class WebsiteController extends AbstractController
 {
     private string $title = '';
