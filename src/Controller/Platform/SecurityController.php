@@ -2,7 +2,9 @@
 
 namespace App\Controller\Platform;
 
+use App\Entity\Platform\User;
 use App\Repository\Platform\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -13,19 +15,49 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecurityController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
+
     #[Route('/', name: 'admin_login_language_redirect')]
     public function loginLanguageRedirect(): RedirectResponse
     {
-        return $this->redirect('/' . substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) );
+        $defaultLocale = $this->getParameter('kernel.default_locale');
+        $supportedLanguages = explode('|', $this->getParameter('app.supported_locales'));
+        $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+        if (in_array($browserLanguage, $supportedLanguages)) {
+            return $this->redirect('/' . $browserLanguage);
+        }
+
+        return $this->redirect('/' . $defaultLocale);
+    }
+
+    private function getHashedPassword(UserPasswordHasherInterface $passwordHasher, User $user, string $plainTextPassword): string
+    {
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $plainTextPassword
+        );
+
+        /*
+        $user->setPassword($hashedPassword);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        */
+
+        return $hashedPassword;
     }
 
     #[Route('/{_locale}', name: 'admin_login')]
-    public function login(Request $request, Security $security, TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function login(UserPasswordHasherInterface $passwordHasher, Request $request, Security $security, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
         $form = $this->createFormBuilder()
             ->add('username', TextType::class, [
@@ -65,12 +97,16 @@ class SecurityController extends AbstractController
             ])
             ->getForm();
 
+        $form->get('language')->setData($request->getLocale());
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if ($this->isLoginCredentialsValid($userRepository, $security, $data['username'], $data['password']) ) {
+            $user = $this->isLoginCredentialsValid($passwordHasher, $userRepository, $security, $data['username'], $data['password']);
+
+            if ($user) {
                 return $this->redirectToRoute('admin_index');
             }
         }
@@ -84,16 +120,20 @@ class SecurityController extends AbstractController
         return $this->render('platform/backend/login.html.twig', $data);
     }
 
-    public function isLoginCredentialsValid(UserRepository $userRepository, Security $security, string $username, string $password): bool
+    public function isLoginCredentialsValid(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, Security $security, string $username, string $password): bool|User
     {
         $findUser = $userRepository->findBy([
             'username'  => $username,
-            'password'  => $password,
         ]);
 
         if ($findUser) {
-            $security->login($findUser[0], 'form_login', 'main');
-            return true;
+            $user = $findUser[0];
+
+            if ($user->getPassword() === hash('sha256', $password) ){
+                $security->login($user, 'form_login', 'main');
+
+                return $user;
+            }
         }
 
         return false;
