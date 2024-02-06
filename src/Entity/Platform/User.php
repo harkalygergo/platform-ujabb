@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 8, nullable: true)]
     private ?string $language = null;
 
+    #[ORM\Column(length: 8)]
+    private int $defaultInstance = 0;
+
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $position = null;
     /**
@@ -48,6 +51,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDefaultInstance(): int
+    {
+        return $this->defaultInstance;
+    }
+
+    public function setDefaultInstance(int $defaultInstance): void
+    {
+        $this->defaultInstance = $defaultInstance;
     }
 
     public function getUsername(): ?string
