@@ -63,7 +63,7 @@
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         <img alt="account" class="rounded-circle" src="https://placehold.co/50x50/FFFFFF/FFF" style="float:left;margin:0 5px;">
-                        <span>{{ app.user.fullName }}<br><small class="text-white-50 float-start">webfejlesztő</small></span>
+                        <span>{{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ app.user.position }}</small></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="{{ url('account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>

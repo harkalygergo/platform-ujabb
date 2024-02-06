@@ -34,11 +34,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 8, nullable: true)]
     private ?string $language = null;
 
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $position = null;
     /**
      * @var string[]
      */
     #[ORM\Column(type: Types::JSON, options: ["default" => self::ROLE_USER])]
     private array $roles = [];
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private \DateTime $lastLogin;
 
     public function getId(): ?int
     {
@@ -91,6 +96,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->language = $language;
     }
 
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): void
+    {
+        $this->position = $position;
+    }
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -108,9 +123,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
-
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
+    }
+
+    public function getLastLogin(): \DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(\DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 }

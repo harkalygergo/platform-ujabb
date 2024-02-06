@@ -131,12 +131,20 @@ class SecurityController extends AbstractController
 
             if ($user->getPassword() === hash('sha256', $password) ){
                 $security->login($user, 'form_login', 'main');
+                $this->setUserLastLogin($user);
 
                 return $user;
             }
         }
 
         return false;
+    }
+
+    private function setUserLastLogin(User $user)
+    {
+        $user->setLastLogin(new \DateTime());
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
     #[Route('/{_locale?}/logout/', name: 'admin_logout')]
