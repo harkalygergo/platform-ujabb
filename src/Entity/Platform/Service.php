@@ -20,6 +20,9 @@ class Service
     #[ORM\Column(length: 64)]
     private ?string $title = null;
 
+    #[ORM\Column(length: 512)]
+    private ?string $description = null;
+
     #[ORM\Column(nullable: true)]
     private ?int $price = null;
 
@@ -28,6 +31,12 @@ class Service
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $nextPayment = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private $createdAt;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -54,6 +63,16 @@ class Service
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     public function getPrice(): ?int
@@ -90,5 +109,37 @@ class Service
         $this->nextPayment = $nextPayment;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
