@@ -73,7 +73,7 @@ class IndexController extends AbstractController
         $data = [
             'title' => '<i class="bi bi-person"></i> Profil szerkesztése',
             'content' => '',
-            'sidebar' => 'platform/backend/v1/sidebar_profil.html.twig',
+            'sidebar' => 'platform/backend/v1/sidebar_profile.html.twig',
             'form' => $form
         ];
 

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Service extends AbstractController
+class ServiceController extends AbstractController
 {
     #[Route('/{_locale}/admin/services/', name: 'admin_service_index')]
     public function viewServices(UserInterface $user)
@@ -15,7 +15,8 @@ class Service extends AbstractController
 
         $data = [
             'title' => '<i class="bi bi-plugin"></i> Szolgáltatások',
-            'dataList' => $dataList
+            'dataList' => $dataList,
+            'sidebar' => 'platform/backend/v1/sidebar_profile.html.twig',
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
