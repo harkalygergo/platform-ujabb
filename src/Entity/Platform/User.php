@@ -44,10 +44,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $position = null;
+
     /**
      * @var string[]
      */
-    #[ORM\Column(type: Types::JSON, options: ["default" => self::ROLE_USER])]
+    #[ORM\Column(type: Types::JSON, options: ["default" => '["'.self::ROLE_USER.'"]'])]
     private array $roles = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
