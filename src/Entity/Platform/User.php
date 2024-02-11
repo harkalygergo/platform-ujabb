@@ -39,8 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 8, nullable: true)]
     private ?string $language = null;
 
-    #[ORM\Column(length: 8)]
-    private int $defaultInstance = 0;
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: "default_instance_id")]
+    private ?Instance $defaultInstance;
 
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $position = null;
@@ -72,12 +73,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->services;
     }
 
-    public function getDefaultInstance(): int
+    public function getDefaultInstance(): ?Instance
     {
         return $this->defaultInstance;
     }
 
-    public function setDefaultInstance(int $defaultInstance): void
+    public function setDefaultInstance(?Instance $defaultInstance): void
     {
         $this->defaultInstance = $defaultInstance;
     }
