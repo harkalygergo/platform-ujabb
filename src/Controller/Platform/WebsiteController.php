@@ -39,7 +39,7 @@ class WebsiteController extends AbstractController
         return $this->render('platform/backend/v1/list.html.twig', $data);
     }
 
-    #[Route('/{_locale}/admin/website/new/', name: 'admin_task_new')]
+    #[Route('/{_locale}/admin/website/new/', name: 'admin_website_new')]
     public function new(Request $request, TranslatorInterface $translator)
     {
         $entity = new Website();
@@ -84,7 +84,7 @@ class WebsiteController extends AbstractController
         return $this->render('platform/backend/v1/form.html.twig', $data);
     }
 
-    #[Route('/{_locale}/admin/website/edit/{id<\d+>}/', name: 'admin_task_edit')]
+    #[Route('/{_locale}/admin/website/edit/{id<\d+>}/', name: 'admin_website_edit')]
     public function edit(Request $request, Website $entity)
     {
         $form = $this->createFormBuilder($entity)
