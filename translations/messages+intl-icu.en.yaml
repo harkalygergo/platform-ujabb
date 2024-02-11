@@ -1,5 +1,6 @@
 global:
     add new: 'add new'
+    back: "back"
     identifier: 'Identifier'
     login: 'Login'
     language: 'Language'

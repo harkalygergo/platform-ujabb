@@ -1,5 +1,6 @@
 global:
     add new: 'új hozzáadása'
+    back: "vissza"
     identifier: 'Azonosító'
     login: 'Bejelentkezés'
     language: 'Nyelv'
