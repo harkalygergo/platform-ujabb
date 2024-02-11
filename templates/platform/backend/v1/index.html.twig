@@ -1,16 +1,20 @@
 {% extends 'platform/backend/v1/base.html.twig' %}
 
 {% block main %}
-    <table class="table table-striped">
-        <thead>
+    <div class="row justify-content-center">
+        <p><small>Vezérlőpult &raquo; Profil &raquo; Szolgáltatások</small></p>
+        <h1><i class="bi bi-speedometer2"></i> {{ 'admin.dashboard'|trans }}</h1>
+        <hr>
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th>Megnevezés</th>
                 <th>Díj</th>
                 <th>Pénznem</th>
                 <th>Következő fizetési időpont</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for service in app.user.services %}
                 <tr>
                     <td>{{ service.title }}</td>
@@ -19,12 +23,9 @@
                     <td>{{ service.nextPayment.format('Y-m-d') }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <div class="row justify-content-center">
-        <h1><i class="bi bi-speedometer2"></i> {{ 'admin.dashboard'|trans }}</h1>
-        <hr>
         <div class="col-xxl-3 col-sm-6">
             <div class="card border-0 box-shadow border-radius-10 mb-4 bg-primary text-white">
                 <div class="card-body p-2">

@@ -42,9 +42,15 @@
         <span>{{ key|raw }}</span>
     </h6>
     <ul class="nav flex-column">
-        {% for k, va in value %}
+        {% for link, va in value %}
             <li class="nav-item">
-                <a class="nav-link text-light d-flex align-items-center gap-2" href="{{ k }}">
+                <a class="
+                    {% if '#' in link %}
+                        text-white-50
+                    {% else %}
+                        text-light
+                    {% endif %}
+                    nav-link d-flex align-items-center gap-2" href="{{ link }}">
                     {{ va|raw }}
                 </a>
             </li>
