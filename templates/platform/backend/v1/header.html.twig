@@ -11,7 +11,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mx-5 mb-2 justify-content-center mb-md-0">
             </ul>
 
-            <i id="view-fullscreen" class="bi bi-arrows-fullscreen"></i>
+            <a class="btn text-white" href="/{{ app.request.locale }}/admin"><i class="bi bi-speedometer2"></i></a>
 
             <div class="dropdown">
                 <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -53,6 +53,8 @@
                 </ul>
             </div>
 
+            <button class="btn text-white" id="view-fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>
+
             |
 
             <div class="text-end">
@@ -64,7 +66,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="{{ url('account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-briefcase"></i> Vállalkozások és szervezetek</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
+                        <li><a class="dropdown-item" href="{{ url('admin_system_index') }}"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
                         <li><hr class="dropdown-divider"></li>
