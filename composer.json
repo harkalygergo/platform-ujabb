@@ -7,6 +7,7 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "components/jquery": "^3.7",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
@@ -85,6 +86,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts",
+            "rm -rf public/assets/jquery",
+            "cp -R vendor/components/jquery public/assets",
             "rm -rf public/assets/bootstrap",
             "cp -R vendor/twbs/bootstrap/dist public/assets/bootstrap",
             "rm -rf public/assets/bootstrap-icons",
