@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
     <meta name="description" content="Platform Business Management System admin dashboard">
-    <title>Platform Business Management System</title>
+    <title>{% if title is defined %}{{ title | striptags }} | {% endif%} Platform Business Management System</title>
 
     <!--link rel="shortcut icon" href="{{ asset('img/platform-favicon-700x700.png') }}"-->
     <link rel="shortcut icon" href="{{ asset('img/stack-platform-icon-bootstrap-icon.png') }}">

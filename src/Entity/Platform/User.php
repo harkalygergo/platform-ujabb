@@ -55,9 +55,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime $lastLogin;
 
+    #[ORM\ManyToMany(targetEntity: BillingProfile::class, mappedBy: 'User')]
+    private Collection $billingProfiles;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->billingProfiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +173,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLogin(\DateTime $lastLogin): void
     {
         $this->lastLogin = $lastLogin;
+    }
+
+    /**
+     * @return Collection<int, BillingProfile>
+     */
+    public function getBillingProfiles(): Collection
+    {
+        return $this->billingProfiles;
+    }
+
+    public function addBillingProfile(BillingProfile $billingProfile): static
+    {
+        if (!$this->billingProfiles->contains($billingProfile)) {
+            $this->billingProfiles->add($billingProfile);
+            $billingProfile->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillingProfile(BillingProfile $billingProfile): static
+    {
+        if ($this->billingProfiles->removeElement($billingProfile)) {
+            $billingProfile->removeUser($this);
+        }
+
+        return $this;
     }
 }

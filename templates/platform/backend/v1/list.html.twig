@@ -26,8 +26,8 @@
                 {% for data in dataList %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ data.title }}</td>
-                        <td>{{ data.description }}</td>
+                        <td>{% if data.title is defined %}{{ data.title }}{% endif %}</td>
+                        <td>{% if data.description is defined %}{{ data.description }}{% endif %}</td>
                         <td class="text-end">{{ data.createdAt.format('Y-m-d H:i:s') }}</td>
                         <td class="text-end">{% if data.updatedAt is not null %}{{ data.updatedAt.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
                         <td class="text-end">
