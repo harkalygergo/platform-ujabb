@@ -26,7 +26,7 @@ class BillingProfile
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 64, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?Integer $zip = null;
 
     #[ORM\Column(length: 64, nullable: true)]

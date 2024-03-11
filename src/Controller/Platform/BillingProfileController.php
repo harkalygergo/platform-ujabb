@@ -3,7 +3,6 @@
 namespace App\Controller\Platform;
 
 use App\Entity\Platform\User;
-use App\Repository\Platform\BillingProfileRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
