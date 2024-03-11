@@ -27,7 +27,7 @@ class BillingProfile
     private ?string $country = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?Integer $zip = null;
+    private ?int $zip = null;
 
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $city = null;
@@ -99,12 +99,12 @@ class BillingProfile
         return $this;
     }
 
-    public function getZip(): ?Integer
+    public function getZip(): ?int
     {
         return $this->zip;
     }
 
-    public function setZip(?Integer $zip): static
+    public function setZip(?int $zip): static
     {
         $this->zip = $zip;
 
