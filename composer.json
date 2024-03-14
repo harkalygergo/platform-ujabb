@@ -7,7 +7,6 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "components/jquery": "^3.7",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
@@ -83,9 +82,7 @@
             "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "rm -rf public/assets/jquery",
-            "cp -R vendor/components/jquery public/assets"
+            "@auto-scripts"
         ]
     },
     "conflict": {
