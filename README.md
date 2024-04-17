@@ -8,6 +8,10 @@ Platform is a multisite and multilingual compatibility Business Management Syste
 
 1. Clone source code from GitHub
 2. Copy `.env.dist` to `.env` and modify.
+3. Run `composer install` command
+4. Create database with `php bin/console doctrine:database:create` command
+5. Migrate database with `php bin/console doctrine:migrations:migrate` command
+6. Update Composer dependencies with `composer update` command
 
 ## How to update?
 
