@@ -18,7 +18,7 @@ Platform is a multisite and multilingual compatibility Business Management Syste
 One line command to update:
 
 ```shell
-git status; git pull; php bin/console doctrine:migrations:migrate; composer update; composer dump-autoload -o;
+git status; git pull; php bin/console doctrine:migrations:migrate; composer update; composer dump-autoload -o; php bin/console cache:clear;
 ```
 
 ## Documentations
