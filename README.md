@@ -19,7 +19,7 @@ One line command to update:
 
 ```shell
 git status; git pull; php bin/console doctrine:migrations:migrate; composer update; composer dump-autoload -o;
-````
+```
 
 ## Documentations
 
