@@ -18,8 +18,8 @@
 
                         <div class="mb-md-5">
 
-                            <h2 class="fw-bold mb-2 text-uppercase"><i class="bi bi-stack"></i> Platform</h2>
-                            <p class="text-white-50 mb-5">Business Management System</p>
+                            <h2 class="fw-bold mb-2 text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</h2>
+                            <p class="text-white-50 mb-5">{{ app.request.server.get('PLATFORM_SLOGAN') }}</p>
                             {{ form_start(form) }}
                                 <div class="text-start">
                                     {{ form_widget(form) }}
