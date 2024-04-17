@@ -49,10 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string[]
      */
-    #[ORM\Column(type: Types::JSON, options: ["default" => '["'.self::ROLE_USER.'"]'])]
+    //#[ORM\Column(type: Types::JSON, options: ["default" => '["'.self::ROLE_USER.'"]'])]
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    // last login defaults to 1970-01-01 00:00:00
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "1970-01-01 00:00:00"])]
     private \DateTime $lastLogin;
 
     #[ORM\ManyToMany(targetEntity: BillingProfile::class, mappedBy: 'User')]

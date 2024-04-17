@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 class PlatformEntity
 {
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]

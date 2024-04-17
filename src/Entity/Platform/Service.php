@@ -32,7 +32,7 @@ class Service
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $nextPayment = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]

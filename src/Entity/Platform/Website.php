@@ -65,7 +65,7 @@ class Website
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $htmlFooter = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
