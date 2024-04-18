@@ -64,6 +64,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: BillingProfile::class, mappedBy: 'User')]
     private Collection $billingProfiles;
 
+    // add profile image url, default null
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profileImageUrl = null;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -214,6 +218,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->billingProfiles->removeElement($billingProfile)) {
             $billingProfile->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getProfileImageUrl(): ?string
+    {
+        return $this->profileImageUrl;
+    }
+
+    public function setProfileImageUrl(?string $profileImageUrl): static
+    {
+        $this->profileImageUrl = $profileImageUrl;
 
         return $this;
     }
