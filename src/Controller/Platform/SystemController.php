@@ -22,4 +22,16 @@ class SystemController extends AbstractController
 
         return $this->render('platform/backend/v1/content.html.twig', $data);
     }
+
+    #[Route('/{_locale}/admin/system/developer-book/', name: 'admin_system_developer_book')]
+    public function developerBook(UserInterface $user)
+    {
+        $data = [
+            'title' => '<i class="bi bi-plugin"></i> Fejlesztői dokumentáció',
+            'content' => '',
+            'sidebar' => 'platform/backend/v1/sidebar_system.html.twig',
+        ];
+
+        return $this->render('platform/backend/v1/developer-book.html.twig', $data);
+    }
 }
