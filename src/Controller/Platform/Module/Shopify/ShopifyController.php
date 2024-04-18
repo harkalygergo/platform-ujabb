@@ -26,6 +26,10 @@ class ShopifyController extends AbstractController
     public function shopifyIndex(): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
+            'breadcrumbs' => [
+                'Vezérlőpult'   => '/admin/',
+                'Shopify'       => '/admin/module/shopify/index/',
+            ],
             'title' => 'Shopify rendelések',
             'content' => '', //json_encode($this->getOrders(), JSON_UNESCAPED_UNICODE),
         ]);

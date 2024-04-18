@@ -44,6 +44,15 @@
     .dropdown-toggle::after {
         content:none;
     }
+    nav ol.breadcrumb li::after {
+
+        content: " \00bb "; /* This is the CSS code for raquo */
+        padding: 0 4px; /* Add some padding so it doesn't stick to the breadcrumb text */
+    }
+
+    nav ol.breadcrumb li:last-child::after {
+        content: ""; /* We don't want a raquo after the last breadcrumb item */
+    }
 </style>
 {% endblock %}
 
@@ -59,6 +68,18 @@
         {{ include('platform/backend/v1/sidebar.html.twig') }}
 
         <main class="col-md-9 ms-sm-auto col-lg-10 p-3">
+
+            {% if breadcrumbs is defined %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        {% for title,url in breadcrumbs %}
+                        <li class="breadcrumb">
+                            <a href="{{ url }}" class="text-secondary"><small>{{ title }}</small></a>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </nav>
+            {% endif %}
 
             {% block main %}{% endblock %}
 
