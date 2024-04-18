@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Module\Shopify;
 
 use App\Entity\Platform\User;
 use Shopify\Auth\FileSessionStorage;
+use Shopify\Clients\HttpResponse;
 use Shopify\Clients\Rest;
 use Shopify\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,15 +26,15 @@ class ShopifyController extends AbstractController
     public function shopifyIndex(): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
-            'title' => 'Shopify module',
-            'content' => 'coming soon'
+            'title' => 'Shopify rendelések',
+            'content' => '', //json_encode($this->getOrders(), JSON_UNESCAPED_UNICODE),
         ]);
     }
 
     public function getConfig(): array
     {
         if (!is_array($this->config) || is_null($this->config)) {
-            $this->config['hu'] = [
+            $this->config = [
                 'SHOPIFY_API_KEY' => $_ENV['MODULE_SHOPIFY_API_KEY'],
                 'SHOPIFY_API_SECRET_KEY' => $_ENV['MODULE_SHOPIFY_API_SECRET_KEY'],
                 'SHOPIFY_API_ACCESS_TOKEN' => $_ENV['MODULE_SHOPIFY_API_ACCESS_TOKEN'],
@@ -44,6 +45,27 @@ class ShopifyController extends AbstractController
         }
 
         return $this->config;
+    }
+
+    public function getOrders(int $limit = 50): array
+    {
+        $response = $this->getResponse('orders', $limit);
+
+        return $response->getDecodedBody()['orders'];
+    }
+
+    public function getResponse(string $path, int $limit = 50, ?string $page_info = null): HttpResponse
+    {
+        $query = [];
+        $query['limit'] = $limit;
+
+        if (!is_null($page_info)) {
+            $query['page_info'] = $page_info;
+        }
+
+        $response = $this->getClient()->get(path: $path, query: $query);
+
+        return $response;
     }
 
     public function getClient()
