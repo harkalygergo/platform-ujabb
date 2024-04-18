@@ -107,7 +107,9 @@ class SecurityController extends AbstractController
             $user = $this->isLoginCredentialsValid($passwordHasher, $userRepository, $security, $data['username'], $data['password']);
 
             if ($user) {
-                return $this->redirectToRoute('admin_index');
+                if ($user->isStatus()) {
+                    return $this->redirectToRoute('admin_index');
+                }
             }
         }
 
