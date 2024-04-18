@@ -46,6 +46,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $position = null;
 
+    // add boolean status, default true
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => true])]
+    private bool $status = true;
+
     /**
      * @var string[]
      */
@@ -143,6 +147,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPosition(?string $position): void
     {
         $this->position = $position;
+    }
+
+    public function isStatus(): bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): void
+    {
+        $this->status = $status;
     }
 
     public function getRoles(): array
