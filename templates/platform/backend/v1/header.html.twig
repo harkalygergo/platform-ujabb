@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{{ url('admin_index') }}" class="mb-2 mb-lg-0 text-warning text-decoration-none">
-                <b class="text-uppercase"><i class="bi bi-stack"></i> Platform BMS</b><br>{{ app.user.defaultInstance.title }}
+                <b class="text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</b><br>{{ app.user.defaultInstance.title }}
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mx-5 mb-2 justify-content-center mb-md-0">
