@@ -1,5 +1,5 @@
 {% set array = {
-    "<a class='nav-link text-light' href='/hu/admin'><span><i class='bi bi-speedometer2'></i> Vezérlőpult</span></a>": {
+    "<br><a class='nav-link text-light' href='/hu/admin'><span><i class='bi bi-speedometer2'></i> Vezérlőpult</span></a>": {
     },
     '<span><i class="bi bi-star"></i> Kedvencek</span>': {
         '/hu/admin/intranet/': '<i class="bi bi-info-square"></i> Intranet',
@@ -44,7 +44,7 @@
 %}
 <!-- FŐ -->
 {% for key, value in array %}
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase fw-bold">
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-2 text-uppercase fw-bold">
         <span>{{ key|raw }}</span>
     </h6>
     <ul class="nav flex-column">

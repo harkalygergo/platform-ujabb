@@ -5,7 +5,9 @@
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{{ url('admin_index') }}" class="mb-2 mb-lg-0 text-warning text-decoration-none">
-                <b class="text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</b><br>{{ app.user.defaultInstance.title }}
+                <b class="text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</b>
+                 #
+                {{ app.user.defaultInstance.title }}
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mx-5 mb-2 justify-content-center mb-md-0">
@@ -61,9 +63,9 @@
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         {% if app.user.profileImageUrl %}
-                            <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:50px;">
+                            <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:25px;">
                         {% endif %}
-                        <span>{{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ app.user.position }}</small></span>
+                        <span>{{ app.user.fullName }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="{{ url('account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
