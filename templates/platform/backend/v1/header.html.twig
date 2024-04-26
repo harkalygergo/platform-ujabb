@@ -5,7 +5,10 @@
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{{ url('admin_index') }}" class="mb-2 mb-lg-0 text-warning text-decoration-none">
-                <b class="text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</b>
+                <i class="bi bi-stack"></i>
+                <b class="text-uppercase d-none d-sm-inline-block">
+                    {{ app.request.server.get('PLATFORM_NAME') }}
+                </b>
                  #
                 {{ app.user.defaultInstance.title }}
             </a>
@@ -65,7 +68,7 @@
                         {% if app.user.profileImageUrl %}
                             <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:25px;">
                         {% endif %}
-                        <span>{{ app.user.fullName }}</span>
+                        <span class="d-none d-sm-inline-block">{{ app.user.fullName }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="{{ url('account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>

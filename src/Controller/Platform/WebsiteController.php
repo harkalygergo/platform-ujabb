@@ -5,8 +5,10 @@ namespace App\Controller\Platform;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website;
 use App\Repository\Platform\WebsiteRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -93,7 +95,91 @@ class WebsiteController extends AbstractController
                     'class' => 'form-control'
                 ]
             ])
+            ->add('slogan', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('slogan', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('keywords', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('description', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('robots', ChoiceType::class, [
+                'choices'  => [
+                    'index, follow' => 'index, follow',
+                    'index, nofollow' => 'index, nofollow',
+                    'noindex, follow' => 'noindex, follow',
+                    'noindex, nofollow' => 'noindex, nofollow',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('language', ChoiceType::class, [
+                'choices'  => [
+                    'english' => 'en',
+                    'magyar' => 'hu',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('template', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('logo', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('favicon', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('primaryColor', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('secondaryColor', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('htmlHead', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('htmlBody', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('htmlFooter', TextareaType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
