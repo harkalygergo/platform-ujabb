@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
     {
         $data = [
             'title' => '403 Forbidden',
-            'content' => '',
+            'content' => '<hr>RESTRICTED AREA<hr><p><b>IP:</b> '.$_SERVER['REMOTE_ADDR'].'<br><b>Agent:</b> '.$_SERVER['HTTP_USER_AGENT'].'</p>',
         ];
 
         return $this->render('platform/backend/v1/index_empty.html.twig', $data);
