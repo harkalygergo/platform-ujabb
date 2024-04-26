@@ -26,6 +26,18 @@ class SecurityController extends AbstractController
     ) {
     }
 
+    #[Route('/', name: 'admin_default_empty_login_screen')]
+    public function adminDefaultEmptyLoginScreen(TranslatorInterface $translator): Response
+    {
+        $data = [
+            'title' => '<i class="bi bi-login"></i> '.$translator->trans('global.login').'<hr>',
+            'content' => '',
+        ];
+
+        return $this->render('platform/backend/v1/index_empty.html.twig', $data);
+    }
+
+    /*
     #[Route('/', name: 'admin_login_language_redirect')]
     public function loginLanguageRedirect(): RedirectResponse
     {
@@ -39,6 +51,7 @@ class SecurityController extends AbstractController
 
         return $this->redirect('/' . $defaultLocale);
     }
+    */
 
     private function getHashedPassword(UserPasswordHasherInterface $passwordHasher, User $user, string $plainTextPassword): string
     {

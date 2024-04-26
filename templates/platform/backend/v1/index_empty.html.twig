@@ -1,0 +1,27 @@
+{% extends 'platform/base.html.twig' %}
+
+{% block style %}
+    <style>
+        body {
+            background-color:rgb(33, 37, 41);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-lg bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <h2 class="fw-bold mb-2 text-uppercase"><i class="bi bi-stack"></i> {{ app.request.server.get('PLATFORM_NAME') }}</h2>
+                            <p class="text-white-50">{{ app.request.server.get('PLATFORM_SLOGAN') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
