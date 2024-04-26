@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -30,7 +29,7 @@ class SecurityController extends AbstractController
     public function adminDefaultEmptyLoginScreen(TranslatorInterface $translator): Response
     {
         $data = [
-            'title' => '<i class="bi bi-login"></i> '.$translator->trans('global.login').'<hr>',
+            'title' => '403 Forbidden',
             'content' => '',
         ];
 
