@@ -61,52 +61,6 @@ class _PlatformAbstractController extends AbstractController
         }
 
         return $sidebarModules;
-
-        /*
-         * {
-            "<br><a class='nav-link text-light' href='/hu/admin'><span><i class='bi bi-speedometer2'></i> Vezérlőpult</span></a>": {
-            },
-            '<span><i class="bi bi-star"></i> Kedvencek</span>': {
-                '/hu/admin/intranet/': '<i class="bi bi-info-square"></i> Intranet',
-            },
-            'Module | Shopify': {
-                '/hu/admin/module/shopify/index/': '<i class="bi bi-basket"></i> Rendelések',
-                '/hu/admin/module/shopify/plans/': '<i class="bi bi-easel"></i> Tervek',
-                '/hu/admin/module/shopify/customers/': '<i class="bi bi-person-circle"></i> Vevők',
-                '/hu/admin/module/shopify/google-merchant/': '<i class="bi bi-filetype-xml"></i> Google Merchant XML',
-            },
-            'ERP | Vállalkozásirányítás': {
-                '/hu/admin/task': '<i class="bi bi-list-task"></i> Feladatkezelő',
-                '#idopontfoglalo': '<i class="bi bi-calendar-plus"></i> Időpontfoglaló <small>(szolgáltatói)</small>',
-                '#realestate': '<i class="bi bi-house"></i> Ingatlanbázis <small>(ingatlanügynökségi)</small>',
-                '#accommodation': '<i class="bi bi-building-add"></i> Szállásfoglaló <small>(szállásadói)</small>',
-            },
-            'CMS | Tartalomkezelés': {
-                '/hu/admin/website': '<i class="bi bi-globe2"></i> Weboldal',
-                '#webshops': '<i class="bi bi-cart"></i> Webáruház',
-                '#webapplications': '<i class="bi bi-window"></i> Webalkalmazás',
-                '#mobilapplications': '<i class="bi bi-phone"></i> Mobilalkalmazás',
-            },
-            'CRM | Ügyfélkapcsolat': {
-                '#clients': '<i class="bi bi-people"></i> Ügyféllista',
-                '#newsletter': '<i class="bi bi-mailbox-flag"></i> Hírlevél',
-                '#forms': '<i class="bi bi-ui-checks"></i> Űrlapok',
-                '#automatizmusok': '<i class="bi bi-person"></i> Automatizmusok',
-            },
-            'ECOM | Értékesítés': {
-                '#products': '<i class="bi bi-shop"></i> Termékek',
-                '#abandontcarts': '<i class="bi bi-bag-x"></i> Elhagyott kosarak',
-                '#orders': '<i class="bi bi-basket"></i> Vásárlások',
-                '#paymentmethods': '<i class="bi bi-credit-card"></i> Fizetési módok',
-                '#shippingmethods': '<i class="bi bi-truck"></i> Szállítási módok',
-                '#analytics': '<i class="bi bi-bar-chart"></i> Analitika',
-            },
-            'Eszközök': {
-                '#clients': '<i class="bi bi-link-45deg"></i> Link rövidítés',
-                '#exportimport': '<i class="bi bi-arrow-down-up"></i> Export/import',
-            }
-        }
-         */
     }
 
     private function getSidebarDefaults(Request $request)
@@ -127,7 +81,7 @@ class _PlatformAbstractController extends AbstractController
             [
                 'title' => '<i class="bi bi-star"></i> Kedvencek',
                 'elements' => [
-                    $this->generateUrl('admin_module_shopify_index', ['_locale' => $request->getLocale()]) => '<i class="bi bi-basket"></i> Rendelések',
+                    $this->generateUrl('admin_show_intranet', ['_locale' => $request->getLocale()]) => '<i class="bi bi-info-square"></i> Intranet',
                 ]
             ]
         );
