@@ -7,7 +7,11 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 overflow-y-auto vh-100">
 
             {% if sidebar|default %}
-                {% include sidebar %}
+                {% if sidebar|length < 100 %}
+                    {% include sidebar %}
+                {% else %}
+                    {{ sidebar|raw }}
+                {% endif %}
             {% else %}
                 {% include 'platform/backend/v1/sidebar_main.html.twig' %}
             {% endif %}

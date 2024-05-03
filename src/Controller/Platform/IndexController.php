@@ -4,7 +4,6 @@ namespace App\Controller\Platform;
 
 use App\Entity\Platform\User;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,14 +17,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted(User::ROLE_USER)]
-class IndexController extends AbstractController
+class IndexController extends _PlatformAbstractController
 {
     public function __construct(private ManagerRegistry $doctrine) {}
 
     #[Route('/{_locale}/admin/', name: 'admin_index')]
-    public function adminIndex(): Response
+    public function adminIndex(Request $request): Response
     {
         return $this->render('platform/backend/v1/index.html.twig', [
+            'sidebar' => $this->getSidebarMain($request),
         ]);
     }
 

@@ -1,0 +1,14 @@
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-2 text-uppercase fw-bold">
+    <span>{{ title|raw }}</span>
+</h6>
+{% for path, text in elements %}
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            {% set textColor = ('#' in path) ? 'text-white-50' : 'text-light' %}
+            <a class="{{ textColor}} nav-link d-flex align-items-center gap-2" href="{{ path }}">
+                {{ text|raw }}
+            </a>
+        </li>
+    </ul>
+{% endfor %}
+<hr>
