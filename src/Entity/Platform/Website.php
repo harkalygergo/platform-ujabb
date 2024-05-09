@@ -17,8 +17,10 @@ class Website
     #[ORM\Column(length: 128)]
     private ?string $domain = null;
 
-    #[ORM\Column(length: 128)]
-    private ?int $instance = null;
+    // add instance as Instance entity
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: "instance_id")]
+    private ?Instance $instance = null;
 
     #[ORM\Column(length: 8)]
     private int $status = 0;
@@ -76,12 +78,12 @@ class Website
         return $this->id;
     }
 
-    public function getInstance(): ?int
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }
 
-    public function setInstance(?int $instance): void
+    public function setInstance(?Instance $instance): void
     {
         $this->instance = $instance;
     }
