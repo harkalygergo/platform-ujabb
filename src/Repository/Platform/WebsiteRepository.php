@@ -21,6 +21,17 @@ class WebsiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Website::class);
     }
 
+    // find website by instance ID
+    public function findByInstance(int $instanceId): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.instance = :instanceId')
+            ->setParameter('instanceId', $instanceId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 //    /**
 //     * @return Website[] Returns an array of Website objects
 //     */

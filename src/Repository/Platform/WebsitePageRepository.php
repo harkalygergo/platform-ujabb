@@ -20,4 +20,13 @@ class WebsitePageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, WebsitePage::class);
     }
+
+    public function findByWebsiteId(int $websiteId): array
+    {
+        return $this->createQueryBuilder('wp')
+            ->andWhere('wp.website = :websiteId')
+            ->setParameter('websiteId', $websiteId)
+            ->getQuery()
+            ->getResult();
+    }
 }
