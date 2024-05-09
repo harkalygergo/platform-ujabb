@@ -33,9 +33,14 @@ class WebsiteController extends AbstractController
     {
         $dataList = $repository->findAll();
 
+        $buttons = [
+            'x/pages/' => 'oldalak',
+        ];
+
         $data = [
             'title' => $this->title,
-            'dataList' => $dataList
+            'dataList' => $dataList,
+            'buttons' => $buttons
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
