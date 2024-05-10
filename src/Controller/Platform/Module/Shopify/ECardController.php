@@ -5,7 +5,6 @@ namespace App\Controller\Platform\Module\Shopify;
 use App\Entity\Platform\Module\Shopify\ECard;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Service\Attribute\Required;
 
