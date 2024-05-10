@@ -6,6 +6,8 @@ use App\Entity\Platform\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Service\Attribute\Required;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted(User::ROLE_USER)]
 class _PlatformAbstractController extends AbstractController
@@ -14,13 +16,16 @@ class _PlatformAbstractController extends AbstractController
 
     private array $sidebar = [];
 
+    #[Required]
+    public TranslatorInterface $translator;
+
     public function getSidebarElements($request)
     {
         $this->sidebar = [
             'cms' => [
                 'title' => 'CMS | Tartalomkezelés',
                 'elements' => [
-                    $this->generateUrl('admin_website', ['_locale' => $request->getLocale()]) => '<i class="bi bi-globe2"></i> Weboldal',
+                    $this->generateUrl('admin_website', ['_locale' => $request->getLocale()]) => '<i class="bi bi-globe2"></i>'. $this->translator->trans('global.website'),
                     '#webshops' => '<i class="bi bi-cart"></i> Webáruház',
                     '#webapplications' => '<i class="bi bi-window"></i> Webalkalmazás',
                     '#mobilapplications' => '<i class="bi bi-phone"></i> Mobilalkalmazás',
@@ -135,5 +140,9 @@ class _PlatformAbstractController extends AbstractController
             'platform/backend/v1/_sidebar_template.html.twig',
             $this->getSidebarElements($request)[$module]
         );
+    }
+
+    private function get(string $class)
+    {
     }
 }

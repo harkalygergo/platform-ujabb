@@ -9,7 +9,8 @@ global:
     forgotPassword: 'Elfelejtett jelszó'
     dontHaveAccount: 'Nincs még fiókja?'
     keepLoggedIn: 'Maradjak bejelentkezve'
-    website: 'Weboldal'
+    website: 'Honlap'
+    page: 'oldal'
 date:
     createdAt: 'Létrejött'
     updatedAt: 'Frissítve'

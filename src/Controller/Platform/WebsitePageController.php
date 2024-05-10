@@ -3,12 +3,14 @@
 namespace App\Controller\Platform;
 
 use App\Entity\Platform\Website;
+use App\Entity\Platform\WebsitePage;
 use App\Repository\Platform\WebsitePageRepository;
 use App\Repository\Platform\WebsiteRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,7 +22,7 @@ class WebsitePageController extends _PlatformAbstractController
 
     public function __construct(private ManagerRegistry $doctrine, TranslatorInterface $translator)
     {
-        $this->title = '<i class="bi bi-page"></i> '. $translator->trans('global.website');
+        $this->title = '<i class="bi bi-page"></i> '. $translator->trans('global.page');
     }
 
     #[Route('/{_locale}/admin/website/{website}/pages/', name: 'admin_website_page_list')]
@@ -107,6 +109,83 @@ class WebsitePageController extends _PlatformAbstractController
             'title' => $this->title,
             'data' => $entity,
             'form'  => $form->createView()
+        ];
+
+        return $this->render('platform/backend/v1/form.html.twig', $data);
+    }
+
+    public function addNex(Request $request, object $entity, FormInterface $form)
+    {
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Website $new */
+            $new = $form->getData();
+            $new->setCreatedAt(new \DateTimeImmutable('now')); // setting current date and time
+
+            $em = $this->doctrine->getManager();
+            $em->persist($new);
+            $em->flush();
+
+            $data['notification'] = $new->getTitle() . ' sikeresen létrehozva.';
+        }
+
+        $data = [
+            'title' => $this->title.'<hr>',
+            'form' => $form
+        ];
+
+        return $this->render('platform/backend/v1/form.html.twig', $data);
+    }
+
+    #[Route('/{_locale}/admin/website/{website}/pages/new/', name: 'admin_website_page_new')]
+    public function new(Request $request, TranslatorInterface $translator, Website $website)
+    {
+        $entity = new WebsitePage();
+
+        $form = $this->createFormBuilder($entity)
+            // add website_id as hidden input
+            ->add('website', TextType::class, [
+                'data' => $website->getId(),
+                'attr' => [
+                    'class' => 'form-control',
+                    'hidden' => true
+                ]
+            ])
+            ->add('title', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => $translator->trans('global.save'),
+                'attr' => [
+                    'class' => 'my-1 btn btn-lg btn-success'
+                ]
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Website $new */
+            $new = $form->getData();
+            $new->setCreatedAt(new \DateTimeImmutable('now')); // setting current date and time
+
+            $em = $this->doctrine->getManager();
+            $em->persist($new);
+            $em->flush();
+
+            $data['notification'] = $new->getTitle() . ' sikeresen létrehozva.';
+        }
+
+        $data = [
+            'title' => $this->title.'<hr>',
+            'form' => $form
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
