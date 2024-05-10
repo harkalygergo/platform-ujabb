@@ -2,16 +2,17 @@
 
 namespace App\Controller\Platform\Module\Shopify;
 
+use App\Controller\Platform\_PlatformAbstractController;
 use App\Entity\Platform\Module\Shopify\ECard;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Service\Attribute\Required;
 
-class ECardController
+class ECardController extends _PlatformAbstractController
 {
-    #[Required]
-    private ManagerRegistry $doctrine;
+    public function __construct(public ManagerRegistry $doctrine)
+    {
+    }
 
     #[Route('/shopify/ecard/order', name: 'shopify_ecard_webhook')]
     public function webhook(): JsonResponse
