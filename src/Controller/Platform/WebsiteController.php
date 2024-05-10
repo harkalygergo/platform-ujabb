@@ -34,7 +34,7 @@ class WebsiteController extends AbstractController
         $dataList = $repository->findAll();
 
         $buttons = [
-            'x/pages/' => 'oldalak',
+            '/pages/' => 'oldalak',
         ];
 
         $data = [

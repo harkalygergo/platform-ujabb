@@ -2,12 +2,14 @@
 
 namespace App\Controller\Platform;
 
+use App\Entity\Platform\Website;
 use App\Repository\Platform\WebsitePageRepository;
 use App\Repository\Platform\WebsiteRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -21,11 +23,10 @@ class WebsitePageController extends _PlatformAbstractController
         $this->title = '<i class="bi bi-page"></i> '. $translator->trans('global.website');
     }
 
-    #[Route('/{_locale}/admin/website/x/pages/', name: 'admin_website_page_list')]
-    public function list(WebsitePageRepository $repository, WebsiteRepository $websiteRepository): Response
+    #[Route('/{_locale}/admin/website/{website}/pages/', name: 'admin_website_page_list')]
+    public function list(WebsitePageRepository $repository, WebsiteRepository $websiteRepository, Website $website): Response
     {
-        $website = $websiteRepository->findByInstance($this->getUser()->getDefaultInstance()->getId());
-        $dataList = $repository->findByWebsiteId($website['0']->getId());
+        $dataList = $repository->findByWebsiteId($website->getId());
 
         $data = [
             'title' => $this->title,
@@ -36,44 +37,50 @@ class WebsitePageController extends _PlatformAbstractController
     }
 
     // create edit form for Website Page
-    #[Route('/{_locale}/admin/website/x/pages/edit/{id}', name: 'admin_website_page_edit')]
-    public function edit(WebsitePageRepository $repository, int $id): Response
+    #[Route('/{_locale}/admin/website/{website}/pages/edit/{id}', name: 'admin_website_page_edit')]
+    public function edit(Request $request, WebsitePageRepository $repository, Website $website, int $id): Response
     {
-        $data = $repository->find($id);
+        $entity = $repository->find($id);
 
         // create form for Website Page
-        $form = $this->createFormBuilder($data)
+        $form = $this->createFormBuilder($entity)
             ->add('title', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('content', TextareaType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('metaTitle', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('metaDescription', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('metaKeywords', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('metaRobots', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('metaCanonical', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -81,14 +88,24 @@ class WebsitePageController extends _PlatformAbstractController
             ->add('save', SubmitType::class, [
                 'label' => 'global.save',
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-success'
                 ]
             ])
             ->getForm();
 
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $em = $this->doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $data['notification'] = $user->getTitle() . ' sikeresen létrehozva.';
+        }
+
         $data = [
             'title' => $this->title,
-            'data' => $data,
+            'data' => $entity,
             'form'  => $form->createView()
         ];
 

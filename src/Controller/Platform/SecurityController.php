@@ -94,7 +94,7 @@ class SecurityController extends AbstractController
                     'class' => 'form-control form-control-lg bg-dark text-white'
                 ]
             ])
-            ->add('keep_logged_in', CheckboxType::class, [
+            ->add('_remember_me', CheckboxType::class, [
                 'label' => $translator->trans('global.keepLoggedIn'),
                 'required' => false,
                 'attr' => [
