@@ -4,8 +4,10 @@ namespace App\Controller\Platform\Module\Shopify;
 
 use App\Controller\Platform\_PlatformAbstractController;
 use App\Entity\Platform\Module\Shopify\ECard;
+use App\Repository\Platform\Module\Shopify\ECardRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ECardController extends _PlatformAbstractController
@@ -29,5 +31,19 @@ class ECardController extends _PlatformAbstractController
 
         return new JsonResponse('Order Webhook');
     }
+
+    #[Route('/{_locale}/shopify/ecard/list/', name: 'shopify_ecard_list')]
+    public function list(ECardRepository $repository): Response
+    {
+        $dataList = $repository->findAll();
+
+        $data = [
+            'title' => '<i class="bi bi-card-list"></i> eCard',
+            'dataList' => $dataList
+        ];
+
+        return $this->render('platform/backend/v1/list.html.twig', $data);
+    }
+
 
 }
