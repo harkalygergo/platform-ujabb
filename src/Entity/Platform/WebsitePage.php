@@ -23,7 +23,6 @@ class WebsitePage
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    // add content
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
