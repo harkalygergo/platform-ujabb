@@ -20,8 +20,8 @@ class ECardController extends _PlatformAbstractController
     public function webhook(): JsonResponse
     {
         // Get the raw POST data sent by Shopify
-        //$webhookContent = file_get_contents('php://input');
-        $webhookContent = json_encode($_POST, JSON_UNESCAPED_UNICODE);
+        $webhookContent = file_get_contents('php://input');
+        //$webhookContent = json_encode($_POST, JSON_UNESCAPED_UNICODE);
 
         // Save the order JSON to the database
         $eCard = new ECard();
