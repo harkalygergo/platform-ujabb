@@ -21,14 +21,25 @@ class ECardController extends _PlatformAbstractController
     {
         // Get the raw POST data sent by Shopify
         $webhookContent = file_get_contents('php://input');
-        //$webhookContent = json_encode($_POST, JSON_UNESCAPED_UNICODE);
+        $orderDetails = json_decode($webhookContent, true);
+        $isECardProductOrdered = false;
 
-        // Save the order JSON to the database
-        $eCard = new ECard();
-        $eCard->setOrderJSON($webhookContent);
-        $em = $this->doctrine->getManager();
-        $em->persist($eCard);
-        $em->flush();
+        foreach ($orderDetails['line_items'] as $lineItem) {
+            $skuFirstPart = explode('-', $lineItem['sku'])['0'];
+
+            if (in_array($skuFirstPart, ['FSMP01', 'FSMS01'])) {
+                $isECardProductOrdered = true;
+            }
+        }
+
+        if ($isECardProductOrdered) {
+            // Save the order JSON to the database
+            $eCard = new ECard();
+            $eCard->setOrderJSON($webhookContent);
+            $em = $this->doctrine->getManager();
+            $em->persist($eCard);
+            $em->flush();
+        }
 
         return new JsonResponse('Order Webhook');
     }
