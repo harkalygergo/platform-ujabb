@@ -23,11 +23,13 @@ class ECardController extends _PlatformAbstractController
         $webhookContent = file_get_contents('php://input');
         $orderDetails = json_decode($webhookContent, true);
         $isECardProductOrdered = false;
+        $eCardProjects = [];
 
         foreach ($orderDetails['line_items'] as $lineItem) {
             $skuFirstPart = explode('-', $lineItem['sku'])['0'];
 
             if (in_array($skuFirstPart, ['FSMP01', 'FSMS01'])) {
+                $eCardProjects[] = $lineItem['properties']['0']['value'];
                 $isECardProductOrdered = true;
             }
         }
@@ -35,6 +37,8 @@ class ECardController extends _PlatformAbstractController
         if ($isECardProductOrdered) {
             // Save the order JSON to the database
             $eCard = new ECard();
+            $eCard->setUserId($orderDetails['customer']['id']);
+            $eCard->setProjects(json_encode($eCardProjects, JSON_UNESCAPED_UNICODE));
             $eCard->setOrderJSON($webhookContent);
             $em = $this->doctrine->getManager();
             $em->persist($eCard);
