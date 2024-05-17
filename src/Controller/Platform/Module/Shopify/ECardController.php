@@ -54,7 +54,23 @@ class ECardController extends _PlatformAbstractController
         return new JsonResponse('Order Webhook');
     }
 
-    // get eCard list by user ID added as URL parameter
+    #[Route('/shopify/ecard/download/{project}', name: 'shopify_ecard_download_image')]
+    public function downloadImage(string $project): Response
+    {
+        $imagePath = '/tmp/'.$project.'.jpg';
+
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath);
+            $response = new Response($imageData);
+
+            // Set the content type header to the appropriate image MIME type
+            $response->headers->set('Content-Type', 'image/jpeg');
+        }
+
+        return $response;
+    }
+
+        // get eCard list by user ID added as URL parameter
     #[Route('/shopify/ecard/list/{userId}', name: 'shopify_ecard_list_by_user_id')]
     public function listByUserId(ECardRepository $repository, int $userId): JsonResponse
     {
@@ -66,7 +82,7 @@ class ECardController extends _PlatformAbstractController
             foreach(json_decode($data->getProjects(), true) as $project) {
                 $projectPDF = json_decode($printboxController->doPrintboxAction('', '', $project, 'viewJSON'), 'true');
 
-                if (array_key_exists('render_url', $projectPDF)) {
+                if (array_key_exists('render_url', $projectPDF) && $projectPDF['render_url'] !== null) {
                     $imagePath = '/tmp/' . $project . '.jpg';
 
                     // if $imagePath is not exists and size is equal to 0, do
@@ -100,8 +116,8 @@ class ECardController extends _PlatformAbstractController
 
                     // add jpg to output
                     $output[] = [
-                        'id' => $data->getId(),
-                        'project' => $imagePath,
+                        'name'      => $projectPDF['name'],
+                        'download'  => '/shopify/ecard/download/' . $project
                     ];
                 }
             }
