@@ -117,7 +117,7 @@ class ECardController extends _PlatformAbstractController
                     // add jpg to output
                     $output[] = [
                         'name'      => $projectPDF['name'],
-                        'download'  => '/shopify/ecard/download/' . $project
+                        'download'  => $_ENV['PLATFORM_DOMAIN'] . '/shopify/ecard/download/' . $project
                     ];
                 }
             }
