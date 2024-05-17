@@ -11,7 +11,7 @@ class PrintboxController
 
     public function __construct()
     {
-        $this->printboxUserId = $_ENV['MODULE_SHOPIFY_API_KEY'];
+        $this->printboxUserId = (int)$_ENV['MODULE_SHOPIFY_API_KEY'];
     }
 
     public function createECardOrder(ECard $ECard)
