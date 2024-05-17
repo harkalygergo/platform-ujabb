@@ -18,7 +18,7 @@ class ECard
     private ?string $orderJSON = null;
 
     // add userId as integer
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?int $userId = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
