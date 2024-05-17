@@ -67,35 +67,41 @@ class ECardController extends _PlatformAbstractController
                 $projectPDF = json_decode($printboxController->doPrintboxAction('', '', $project, 'viewJSON'), 'true');
 
                 if (array_key_exists('render_url', $projectPDF)) {
-                    $projectPDFURL = $projectPDF['render_url'];
-                    // download .tar from $projectPDFURL to /tmp
-                    $tmpTarPath = '/tmp/' . $project . '.tar';
-                    file_put_contents($tmpTarPath, file_get_contents($projectPDFURL));
-                    $phar = new PharData('/tmp/' . $project . '.tar');
-                    if (!is_dir('/tmp/' . $project)) {
-                        $phar->extractTo('/tmp/' . $project); // creates /tmp/$project folder
+                    $imagePath = '/tmp/' . $project . '.jpg';
+
+                    // if $imagePath is not exists and size is equal to 0, do
+                    if (!file_exists($imagePath) || filesize($imagePath) == 0) {
+                        $projectPDFURL = $projectPDF['render_url'];
+                        // download .tar from $projectPDFURL to /tmp
+                        $tmpTarPath = '/tmp/' . $project . '.tar';
+                        file_put_contents($tmpTarPath, file_get_contents($projectPDFURL));
+                        $phar = new PharData('/tmp/' . $project . '.tar');
+                        if (!is_dir('/tmp/' . $project)) {
+                            $phar->extractTo('/tmp/' . $project); // creates /tmp/$project folder
+                        }
+                        // delete .tar
+                        unlink($tmpTarPath);
+                        // get .pdf from /tmp/$project folder
+                        $pdfFiles = glob('/tmp/' . $project . '/*.pdf');
+                        $pdfFile = $pdfFiles['0'];
+                        // create jpg from pdf
+                        $pdf = new Imagick($pdfFile);
+                        $pdf->setIteratorIndex(0);
+                        // set image quality to 100 and size is 1200 pixel * 1200 pixel
+                        $pdf->setImageCompressionQuality(100);
+                        $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1);
+                        $pdf->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
+                        $pdf->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                        $pdf->setImageFormat('jpg');
+                        $pdf->writeImage('/tmp/' . $project . '.jpg');
+                        // delete pdf
+                        unlink($pdfFile);
                     }
-                    // delete .tar
-                    unlink($tmpTarPath);
-                    // get .pdf from /tmp/$project folder
-                    $pdfFiles = glob('/tmp/' . $project . '/*.pdf');
-                    $pdfFile = $pdfFiles['0'];
-                    // create jpg from pdf
-                    $pdf = new Imagick($pdfFile);
-                    $pdf->setIteratorIndex(0);
-                    // set image quality to 100 and size is 1200 pixel * 1200 pixel
-                    $pdf->setImageCompressionQuality(100);
-                    $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1);
-                    $pdf->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
-                    $pdf->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-                    $pdf->setImageFormat('jpg');
-                    $pdf->writeImage('/tmp/' . $project . '.jpg');
-                    // delete pdf
-                    unlink($pdfFile);
+
                     // add jpg to output
                     $output[] = [
                         'id' => $data->getId(),
-                        'project' => '/tmp/' . $project . '.jpg',
+                        'project' => $imagePath,
                     ];
                 }
             }
