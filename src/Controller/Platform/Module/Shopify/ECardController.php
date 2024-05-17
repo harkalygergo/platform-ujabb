@@ -105,7 +105,7 @@ class ECardController extends _PlatformAbstractController
                         $pdf->setIteratorIndex(0);
                         // set image quality to 100 and size is 1200 pixel * 1200 pixel
                         $pdf->setImageCompressionQuality(100);
-                        $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1);
+                        $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1, true);
                         $pdf->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
                         $pdf->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
                         $pdf->setImageFormat('jpg');
