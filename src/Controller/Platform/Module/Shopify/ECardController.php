@@ -57,8 +57,6 @@ class ECardController extends _PlatformAbstractController
     #[Route('/shopify/ecard/download/{project}', name: 'shopify_ecard_download_image')]
     public function downloadImage(string $project): Response
     {
-        header("Access-Control-Allow-Origin: *");
-
         $imagePath = '/tmp/'.$project.'.jpg';
 
         if (file_exists($imagePath)) {
@@ -125,7 +123,10 @@ class ECardController extends _PlatformAbstractController
             }
         }
 
-        return new JsonResponse($output);
+        $response = new JsonResponse($output);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 
     #[Route('/{_locale}/shopify/ecard/list/', name: 'shopify_ecard_list')]
