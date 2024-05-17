@@ -17,29 +17,23 @@ class PrintboxController
     public function createECardOrder(ECard $ECard)
     {
         $order = json_decode($ECard->getOrderJSON(), true);
-        $eCards = [];
+        $projects = json_decode($ECard->getProjects(), true);
 
-        foreach ($order['line_items'] as $lineItem) {
-            $skuFirstPart = explode('-', $lineItem['sku'])[0];
-
-            if (in_array($skuFirstPart, ['FSMP01', 'FSMS01'])) {
-                $eCards[] = $lineItem;
-                $this->doPrintboxAction($order['id'], $order['name'], $lineItem['properties']['0']['value'], 'addUser');
-                $this->doPrintboxAction($order['id'], $order['name'], $lineItem['properties']['0']['value'], 'validate');
-            }
+        foreach($projects as $project) {
+            $this->doPrintboxAction($order['id'], $order['name'], $project, 'addUser');
+            $this->doPrintboxAction($order['id'], $order['name'], $project, 'validate');
         }
 
-
         $payloadProjects = [];
-        foreach ($eCards as $eCard) {
+        foreach ($order['line_items'] as $orderLineItem) {
             if (isset($orderLineItem['properties'])) {
                 foreach ($orderLineItem['properties'] as $property) {
                     if ($property['name']==='Project') {
                         $payloadProjects[] = [
-                            'uuid'                          => $eCard['properties']['0']['value'],
-                            'quantity'                      => ($eCard['fulfillable_quantity'] != 0) ? $eCard['fulfillable_quantity'] : 1,
-                            'item_price_net'                => $eCard['price'],
-                            'item_price_net_incl_discount'  => $eCard['price'],
+                            'uuid'                          => $orderLineItem['properties']['0']['value'],
+                            'quantity'                      => ($orderLineItem['fulfillable_quantity'] != 0) ? $orderLineItem['fulfillable_quantity'] : 1,
+                            'item_price_net'                => $orderLineItem['price'],
+                            'item_price_net_incl_discount'  => $orderLineItem['price'],
                         ];
                     }
                 }
