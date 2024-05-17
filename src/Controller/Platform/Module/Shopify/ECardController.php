@@ -72,7 +72,9 @@ class ECardController extends _PlatformAbstractController
                     $tmpTarPath = '/tmp/' . $project . '.tar';
                     file_put_contents($tmpTarPath, file_get_contents($projectPDFURL));
                     $phar = new PharData('/tmp/' . $project . '.tar');
-                    $phar->extractTo('/tmp/' . $project); // creates /tmp/$project folder
+                    if (!is_dir('/tmp/' . $project)) {
+                        $phar->extractTo('/tmp/' . $project); // creates /tmp/$project folder
+                    }
                     // delete .tar
                     unlink($tmpTarPath);
                     // get .pdf from /tmp/$project folder
