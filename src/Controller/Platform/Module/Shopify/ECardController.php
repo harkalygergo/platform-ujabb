@@ -3,6 +3,7 @@
 namespace App\Controller\Platform\Module\Shopify;
 
 use App\Controller\Platform\_PlatformAbstractController;
+use App\Controller\Platform\Module\Printbox\PrintboxController;
 use App\Entity\Platform\Module\Shopify\ECard;
 use App\Repository\Platform\Module\Shopify\ECardRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,6 +44,9 @@ class ECardController extends _PlatformAbstractController
             $em = $this->doctrine->getManager();
             $em->persist($eCard);
             $em->flush();
+
+            $printboxController = new PrintboxController();
+            $printboxController->createECardOrder($eCard);
         }
 
         return new JsonResponse('Order Webhook');
