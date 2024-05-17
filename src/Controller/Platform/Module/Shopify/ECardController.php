@@ -7,6 +7,8 @@ use App\Controller\Platform\Module\Printbox\PrintboxController;
 use App\Entity\Platform\Module\Shopify\ECard;
 use App\Repository\Platform\Module\Shopify\ECardRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Imagick;
+use PharData;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,6 +54,51 @@ class ECardController extends _PlatformAbstractController
         return new JsonResponse('Order Webhook');
     }
 
+    // get eCard list by user ID added as URL parameter
+    #[Route('/shopify/ecard/list/{userId}', name: 'shopify_ecard_list_by_user_id')]
+    public function listByUserId(ECardRepository $repository, int $userId): JsonResponse
+    {
+        $dataList = $repository->findBy(['userId' => $userId]);
+        $printboxController = new PrintboxController();
+        $output = [];
+
+        foreach ($dataList as $key => $data) {
+            foreach(json_decode($data->getProjects(), true) as $project) {
+                $projectPDFURL = json_decode($printboxController->doPrintboxAction('', '', $project, 'viewJSON'), 'true')['render_url'];
+
+                // download .tar from $projectPDFURL to /tmp
+                $tmpTarPath = '/tmp/' . $project . '.tar';
+                file_put_contents($tmpTarPath, file_get_contents($projectPDFURL));
+                $phar = new PharData('/tmp/' . $project . '.tar');
+                $phar->extractTo('/tmp/' . $project); // creates /tmp/$project folder
+                // delete .tar
+                unlink($tmpTarPath);
+                // get .pdf from /tmp/$project folder
+                $pdfFiles = glob('/tmp/' . $project . '/*.pdf');
+                $pdfFile = $pdfFiles['0'];
+                // create jpg from pdf
+                $pdf = new Imagick($pdfFile);
+                $pdf->setIteratorIndex(0);
+                // set image quality to 100 and size is 1200 pixel * 1200 pixel
+                $pdf->setImageCompressionQuality(100);
+                $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1);
+                $pdf->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
+                $pdf->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                $pdf->setImageFormat('jpg');
+                $pdf->writeImage('/tmp/' . $project . '.jpg');
+                // delete pdf
+                unlink($pdfFile);
+                // add jpg to output
+                $output[] = [
+                    'id' => $data->getId(),
+                    'project' => '/tmp/' . $project . '.jpg',
+                ];
+            };
+        }
+
+        return new JsonResponse($output);
+    }
+
     #[Route('/{_locale}/shopify/ecard/list/', name: 'shopify_ecard_list')]
     public function list(ECardRepository $repository): Response
     {
@@ -64,6 +111,4 @@ class ECardController extends _PlatformAbstractController
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
     }
-
-
 }

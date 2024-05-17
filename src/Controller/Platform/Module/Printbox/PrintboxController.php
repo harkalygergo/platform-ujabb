@@ -80,6 +80,13 @@ class PrintboxController
                 $payload = [];
                 break;
             }
+            case 'viewJSON': {
+                $method = 'GET';
+                $urlPart = 'projects/';
+                $urlEnd = '/';
+                $payload = [];
+                break;
+            }
             case 'setOrderPaid': {
                 $method = 'PATCH';
                 $urlPart = 'orders/';
