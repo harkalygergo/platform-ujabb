@@ -134,9 +134,16 @@ class ECardController extends _PlatformAbstractController
     {
         $dataList = $repository->findAll();
 
+        $attributes = [
+            'userId'    => $this->translator->trans('global.user'),
+            'projects'  => 'Projects',
+        ];
+
         $data = [
-            'title' => '<i class="bi bi-card-list"></i> eCard',
-            'dataList' => $dataList
+            'title'     => '<i class="bi bi-card-list"></i> eCard',
+            'attributes'=> $attributes,
+            'dataList'  => $dataList,
+            'new'       => false
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);

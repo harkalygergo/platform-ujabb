@@ -6,7 +6,9 @@
             <h1>{{ title|raw }}</h1>
         </div>
         <div class="col-sm-6 text-end">
-            <a href="new/" class="btn btn-success btn-lg"> + {{ 'global.add new'|trans }}</a>
+            {% if new is not defined or new %}
+                <a href="new/" class="btn btn-success btn-lg"> + {{ 'global.add new'|trans }}</a>
+            {% endif %}
         </div>
     </div>
     <hr>
@@ -15,10 +17,16 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Cím</th>
-                    <th>Tartalom</th>
-                    <th class="text-end">{{ 'date.createdAt'|trans }}</th>
-                    <th class="text-end">{{ 'date.updatedAt'|trans }}</th>
+                    {% if attributes is defined %}
+                        {% for attributeKey, attributeValue in attributes %}
+                            <th>{{ attributeValue }}</th>
+                        {% endfor %}
+                    {% else %}
+                        <th>Cím</th>
+                        <th>Tartalom</th>
+                        <th class="text-end">{{ 'date.createdAt'|trans }}</th>
+                        <th class="text-end">{{ 'date.updatedAt'|trans }}</th>
+                    {% endif %}
                     <th class="text-end">Eszközök</th>
                 </tr>
             </thead>
@@ -26,16 +34,22 @@
                 {% for data in dataList %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{% if data.title is defined %}{{ data.title }}{% endif %}</td>
-                        <td>{% if data.description is defined %}{{ data.description }}{% endif %}</td>
-                        <td class="text-end">{% if data.createdAt is defined %}{{ data.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td class="text-end">
-                            {% if data.updatedAt is defined and data.updatedAt is not null %}
-                                {{ data.updatedAt.format('Y-m-d H:i:s') }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
+                        {% if attributes is defined %}
+                            {% for attributeKey, attributeValue in attributes %}
+                                <td>{{ attribute(data, attributeKey) }}</td>
+                            {% endfor %}
+                        {% else %}
+                            <td>{% if data.title is defined %}{{ data.title }}{% endif %}</td>
+                            <td>{% if data.description is defined %}{{ data.description }}{% endif %}</td>
+                            <td class="text-end">{% if data.createdAt is defined %}{{ data.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
+                            <td class="text-end">
+                                {% if data.updatedAt is defined and data.updatedAt is not null %}
+                                    {{ data.updatedAt.format('Y-m-d H:i:s') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        {% endif %}
                         <td class="text-end">
                             {% if buttons is defined %}
                                 {% for buttonUrl, buttonKey in buttons %}
