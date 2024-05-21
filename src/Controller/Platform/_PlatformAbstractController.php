@@ -116,7 +116,7 @@ class _PlatformAbstractController extends AbstractController
         return $this->renderView(
             'platform/backend/v1/_sidebar_template.html.twig',
             [
-                'title' => '<a class="nav-link text-light" href="/'.$request->getLocale().'/admin"><span><i class="bi bi-speedometer2"></i> Vezérlőpult</span></a>',
+                'title' => '<br><a class="text-decoration-none text-light" href="/'.$request->getLocale().'/admin"><i class="bi bi-speedometer2"></i> Vezérlőpult</a>',
                 'elements' => []
             ]
         );
