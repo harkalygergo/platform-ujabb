@@ -2,18 +2,19 @@
 
 namespace App\Controller\Platform\Module\Shopify;
 
+use App\Controller\Platform\_PlatformAbstractController;
 use App\Entity\Platform\User;
 use Shopify\Auth\FileSessionStorage;
 use Shopify\Clients\HttpResponse;
 use Shopify\Clients\Rest;
 use Shopify\Context;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
-class ShopifyController extends AbstractController
+class ShopifyController extends _PlatformAbstractController
 {
     private ?array $config = null;
 
@@ -23,7 +24,7 @@ class ShopifyController extends AbstractController
     }
 
     #[Route('/{_locale}/admin/module/shopify/index/', name: 'admin_module_shopify_index')]
-    public function shopifyIndex(): Response
+    public function shopifyIndex(Request $request): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
             'breadcrumbs' => [
@@ -32,6 +33,7 @@ class ShopifyController extends AbstractController
             ],
             'title' => 'Shopify rendelések',
             'content' => '', //json_encode($this->getOrders(), JSON_UNESCAPED_UNICODE),
+            'sidebar' => $this->getSidebarMain($request),
         ]);
     }
 

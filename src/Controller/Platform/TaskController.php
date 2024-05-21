@@ -6,7 +6,6 @@ use App\Entity\Platform\Task;
 use App\Entity\Platform\User;
 use App\Repository\Platform\TaskRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,20 +16,21 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted(User::ROLE_USER)]
-class TaskController extends AbstractController
+class TaskController extends _PlatformAbstractController
 {
     public function __construct(private ManagerRegistry $doctrine)
     {
     }
 
     #[Route('/{_locale}/admin/task/', name: 'app_task')]
-    public function index(TaskRepository $repository): Response
+    public function index(TaskRepository $repository, Request $request): Response
     {
         $dataList = $repository->findAll();
 
         $data = [
             'title' => '<i class="bi bi-list-task"></i> Feladatkezelő',
-            'dataList' => $dataList
+            'dataList' => $dataList,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
@@ -75,7 +75,8 @@ class TaskController extends AbstractController
 
         $data = [
             'title' => '<i class="bi bi-list-task"></i> Feladatkezelő<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
@@ -115,7 +116,8 @@ class TaskController extends AbstractController
 
         $data = [
             'title' => '<i class="bi bi-list-task"></i> Feladatkezelő<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);    }

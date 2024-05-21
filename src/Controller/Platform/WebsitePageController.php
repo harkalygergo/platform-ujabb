@@ -26,13 +26,14 @@ class WebsitePageController extends _PlatformAbstractController
     }
 
     #[Route('/{_locale}/admin/website/{website}/pages/', name: 'admin_website_page_list')]
-    public function list(WebsitePageRepository $repository, WebsiteRepository $websiteRepository, Website $website): Response
+    public function list(WebsitePageRepository $repository, WebsiteRepository $websiteRepository, Website $website, Request $request): Response
     {
         $dataList = $repository->findByWebsiteId($website->getId());
 
         $data = [
             'title' => $this->title,
-            'dataList' => $dataList
+            'dataList' => $dataList,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
@@ -108,7 +109,8 @@ class WebsitePageController extends _PlatformAbstractController
         $data = [
             'title' => $this->title,
             'data' => $entity,
-            'form'  => $form->createView()
+            'form'  => $form->createView(),
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
@@ -132,7 +134,8 @@ class WebsitePageController extends _PlatformAbstractController
 
         $data = [
             'title' => $this->title.'<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
@@ -185,7 +188,8 @@ class WebsitePageController extends _PlatformAbstractController
 
         $data = [
             'title' => $this->title.'<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);

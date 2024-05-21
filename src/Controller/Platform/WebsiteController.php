@@ -5,9 +5,7 @@ namespace App\Controller\Platform;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website;
 use App\Repository\Platform\WebsiteRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted(User::ROLE_USER)]
-class WebsiteController extends AbstractController
+class WebsiteController extends _PlatformAbstractController
 {
     private string $title = '';
 
@@ -29,7 +27,7 @@ class WebsiteController extends AbstractController
     }
 
     #[Route('/{_locale}/admin/website/', name: 'admin_website')]
-    public function index(WebsiteRepository $repository): Response
+    public function index(WebsiteRepository $repository, Request $request): Response
     {
         $dataList = $repository->findAll();
 
@@ -40,7 +38,8 @@ class WebsiteController extends AbstractController
         $data = [
             'title' => $this->title,
             'dataList' => $dataList,
-            'buttons' => $buttons
+            'buttons' => $buttons,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
@@ -85,7 +84,8 @@ class WebsiteController extends AbstractController
 
         $data = [
             'title' => $this->title.'<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
@@ -209,7 +209,8 @@ class WebsiteController extends AbstractController
 
         $data = [
             'title' => $this->title.'<hr>',
-            'form' => $form
+            'form' => $form,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/form.html.twig', $data);    }

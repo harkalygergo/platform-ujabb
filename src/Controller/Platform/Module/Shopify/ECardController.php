@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Imagick;
 use PharData;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -130,7 +131,7 @@ class ECardController extends _PlatformAbstractController
     }
 
     #[Route('/{_locale}/shopify/ecard/list/', name: 'shopify_ecard_list')]
-    public function list(ECardRepository $repository): Response
+    public function list(ECardRepository $repository, Request $request): Response
     {
         $dataList = $repository->findAll();
 
@@ -143,7 +144,8 @@ class ECardController extends _PlatformAbstractController
             'title'     => '<i class="bi bi-card-list"></i> eCard',
             'attributes'=> $attributes,
             'dataList'  => $dataList,
-            'new'       => false
+            'new'       => false,
+            'sidebar' => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
