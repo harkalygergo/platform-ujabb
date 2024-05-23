@@ -77,6 +77,12 @@ class _PlatformAbstractController extends AbstractController
                     '#shopify/customers' => '<i class="bi bi-person-circle"></i> Vevők',
                     '#shopify/google-merchant' => '<i class="bi bi-filetype-xml"></i> Google Merchant XML',
                 ]
+            ],
+            'printbox' => [
+                'title' => 'Printbox',
+                'elements' => [
+                    $this->generateUrl('module_printbox_saved_projects_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-basket"></i> Mentett tervek',
+                ]
             ]
         ];
 
