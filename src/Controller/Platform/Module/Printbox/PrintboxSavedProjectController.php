@@ -162,22 +162,34 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
             return new JsonResponse('Invalid JSON', 400);
         }
 
-        $savedProject = new SavedProjects();
-        $savedProject->setProjectTitle($json['projectTitle']);
-        $savedProject->setProduct($json['product']);
-        $savedProject->setVariant($json['variant']);
-        $savedProject->setProductTitle($json['productTitle']);
-        $savedProject->setProductCategory($json['productCategory']);
-        $savedProject->setUrl($json['url']);
-        $savedProject->setCreatedAt(new \DateTime());
-        $savedProject->setCustomer($json['customer']);
-        $savedProject->setSite($json['site']);
-        $savedProject->setProjectHash($json['projectId']);
-        $savedProject->setCreatedAt(new \DateTimeImmutable());
+        // check if project already exists with projectID
+        $existingProject = $repository->findOneBy(['projectHash' => $json['projectId']]);
+        dump($existingProject);
+        exit;
+        if ($existingProject) {
+            $existingProject->setUpdatedAt(new \DateTimeImmutable());
+            $existingProject->setProjectTitle($json['projectTitle']);
+            $em = $doctrine->getManager();
+            $em->persist($existingProject);
+            $em->flush();
+        } else {
+            $savedProject = new SavedProjects();
+            $savedProject->setProjectTitle($json['projectTitle']);
+            $savedProject->setProduct($json['product']);
+            $savedProject->setVariant($json['variant']);
+            $savedProject->setProductTitle($json['productTitle']);
+            $savedProject->setProductCategory($json['productCategory']);
+            $savedProject->setUrl($json['url']);
+            $savedProject->setCreatedAt(new \DateTime());
+            $savedProject->setCustomer($json['customer']);
+            $savedProject->setSite($json['site']);
+            $savedProject->setProjectHash($json['projectId']);
+            $savedProject->setCreatedAt(new \DateTimeImmutable());
 
-        $em = $doctrine->getManager();
-        $em->persist($savedProject);
-        $em->flush();
+            $em = $doctrine->getManager();
+            $em->persist($savedProject);
+            $em->flush();
+        }
 
         $response = new JsonResponse($json);
         $response->headers->set('Access-Control-Allow-Origin', '*');
