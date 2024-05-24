@@ -71,7 +71,7 @@ class ECardController extends _PlatformAbstractController
         return $response;
     }
 
-        // get eCard list by user ID added as URL parameter
+    // get eCard list by user ID added as URL parameter
     #[Route('/shopify/ecard/list/{userId}', name: 'shopify_ecard_list_by_user_id')]
     public function listByUserId(ECardRepository $repository, int $userId): JsonResponse
     {
