@@ -164,8 +164,6 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
 
         // check if project already exists with projectID
         $existingProject = $repository->findOneBy(['projectHash' => $json['projectId']]);
-        dump($existingProject);
-        exit;
         if ($existingProject) {
             $existingProject->setUpdatedAt(new \DateTimeImmutable());
             $existingProject->setProjectTitle($json['projectTitle']);
