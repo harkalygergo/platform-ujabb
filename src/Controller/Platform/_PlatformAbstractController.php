@@ -71,7 +71,7 @@ class _PlatformAbstractController extends AbstractController
             'shopifyXprintbox' => [
                 'title' => 'Shopify X Printbox',
                 'elements' => [
-                    $this->generateUrl('admin_module_shopify_index', ['_locale' => $request->getLocale()]) => '<i class="bi bi-basket"></i> Rendelések',
+                    $this->generateUrl('admin_module_shopify_order_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-basket"></i> Rendelések',
                     $this->generateUrl('shopify_ecard_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-card-list"></i> eCard',
                     '#shopify/customers' => '<i class="bi bi-person-circle"></i> Vevők',
                     '#shopify/google-merchant' => '<i class="bi bi-filetype-xml"></i> Google Merchant XML',

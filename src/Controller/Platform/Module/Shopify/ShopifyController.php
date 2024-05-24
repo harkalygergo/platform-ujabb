@@ -23,18 +23,32 @@ class ShopifyController extends _PlatformAbstractController
         // do nothing
     }
 
-    #[Route('/{_locale}/admin/module/shopify/index/', name: 'admin_module_shopify_index')]
-    public function shopifyIndex(Request $request): Response
+    #[Route('/{_locale}/admin/module/shopify/order/list', name: 'admin_module_shopify_order_list')]
+    public function shopifyOrderList(Request $request): Response
     {
-        return $this->render('platform/backend/v1/content.html.twig', [
-            'breadcrumbs' => [
-                'Vezérlőpult'   => '/admin/',
-                'Shopify'       => '/admin/module/shopify/index/',
-            ],
-            'title' => 'Shopify rendelések',
-            'content' => '', //json_encode($this->getOrders(), JSON_UNESCAPED_UNICODE),
-            'sidebar' => $this->getSidebarMain($request),
-        ]);
+        $orders = $this->getOrders();
+
+        if ($orders) {
+            $attributes = [
+                'id'    => 'ID',
+                'name'  => 'Megnevezés',
+                'email' => 'Email',
+                'total_price' => 'Total Price',
+                'created_at' => 'Created At',
+            ];
+
+            $data = [
+                'title'     => '<i class="bi bi-basket"></i> Shopify rendelések',
+                'attributes'=> $attributes,
+                'dataList'  => $orders,
+                'new'       => false,
+                'sidebar' => $this->getSidebarMain($request),
+            ];
+
+            return $this->render('platform/backend/v1/list.html.twig', $data);
+        }
+
+        return new Response('No orders found');
     }
 
     public function getConfig(): array
