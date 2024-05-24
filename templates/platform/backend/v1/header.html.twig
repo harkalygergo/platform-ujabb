@@ -1,16 +1,24 @@
 <!--header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">䷊ Platform / Harkály Gergő</a>
 </header-->
-<header class="text-bg-dark border-bottom">
+<header class="text-bg-dark">
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="{{ url('admin_index') }}" class="mb-2 mb-lg-0 text-warning text-decoration-none">
-                <i class="bi bi-stack"></i>
-                <b class="text-uppercase d-none d-sm-inline-block">
-                    {{ app.request.server.get('PLATFORM_NAME') }}
-                </b>
-                 #
-                {{ app.user.defaultInstance.title }}
+            <a href="{{ url('admin_index') }}" class="text-warning text-decoration-none">
+                <table>
+                    <tr>
+                        <td>
+                            <i class="bi bi-stack" style="font-size:32px;padding-right:4px;"></i>
+                        </td>
+                        <td>
+                            <b class="text-uppercase d-none d-sm-inline-block">
+                                {{ app.request.server.get('PLATFORM_NAME') }}
+                            </b>
+                            <br>
+                            {{ app.user.defaultInstance.title }}
+                        </td>
+                    </tr>
+                </table>
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mx-5 mb-2 justify-content-center mb-md-0">
@@ -19,8 +27,8 @@
             <a class="btn text-white" href="/{{ app.request.locale }}/admin"><i class="bi bi-speedometer2"></i></a>
 
             <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-bell"></i>
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell text-white"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" data-bs-toggle="dropdown" data-bs-theme="dark">
                     <li><span class="dropdown-item"><i>nincs új értesítés</i></span></li>
@@ -29,8 +37,8 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-theme="dark" data-bs-toggle="dropdown">
-                    <i class="bi bi-calendar"></i>
+                <button class="btn dropdown-toggle" type="button" data-bs-theme="dark" data-bs-toggle="dropdown">
+                    <i class="bi bi-calendar text-white"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                     <li><span class="dropdown-item"><i>nincs új esemény</i></span></li>
@@ -39,8 +47,8 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-envelope"></i>
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-envelope text-white"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                     <li><span class="dropdown-item"><i>nincs új üzenet</i></span></li>
@@ -49,8 +57,8 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <i class="bi bi-translate"></i>
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-translate text-white"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                     <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href='/en/admin/'">english</a></span></li>
@@ -60,15 +68,13 @@
 
             <button class="btn text-white" id="view-fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>
 
-            |
-
             <div class="text-end">
                 <div class="dropdown">
-                    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" style="font-size: 12px;">
                         {% if app.user.profileImageUrl %}
-                            <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:25px;">
+                            <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:32px;">
                         {% endif %}
-                        <span class="d-none d-sm-inline-block">{{ app.user.fullName }}</span>
+                        <span>{{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ app.user.position }}</small></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="{{ url('account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
