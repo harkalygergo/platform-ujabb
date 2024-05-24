@@ -147,7 +147,7 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
             }
      * */
     // create route to save user printbox project
-    #[Route('/{_locale<\w+>?en}/module/printbox/saved-projects/save', name: 'module_printbox_saved_projects_save', defaults: ['_locale' => 'en'], methods: ['POST'])]
+    #[Route('/{_locale}/module/printbox/saved-projects/save', name: 'module_printbox_saved_projects_save', defaults: ['_locale' => 'en'], methods: ['POST'])]
     public function saveUserPrintboxProject(Request $request, ManagerRegistry $doctrine, PrintboxSavedProjectRepository $repository): JsonResponse
     {
         $content = $request->getContent();
