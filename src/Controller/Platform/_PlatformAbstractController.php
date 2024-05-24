@@ -35,9 +35,9 @@ class _PlatformAbstractController extends AbstractController
                 'title' => 'ERP | Vállalkozásirányítás',
                 'elements' => [
                     $this->generateUrl('app_task', ['_locale' => $request->getLocale()]) => '<i class="bi bi-list-task"></i> Feladatkezelő',
-                    '#idopontfoglalo' => '<i class="bi bi-calendar-plus"></i> Időpontfoglaló <small>(szolgáltatói)</small>',
-                    '#realestate' => '<i class="bi bi-house"></i> Ingatlanbázis <small>(ingatlanügynökségi)</small>',
-                    '#accommodation' => '<i class="bi bi-building-add"></i> Szállásfoglaló <small>(szállásadói)</small>',
+                    //'#idopontfoglalo' => '<i class="bi bi-calendar-plus"></i> Időpontfoglaló <small>(szolgáltatói)</small>',
+                    //'#realestate' => '<i class="bi bi-house"></i> Ingatlanbázis <small>(ingatlanügynökségi)</small>',
+                    //'#accommodation' => '<i class="bi bi-building-add"></i> Szállásfoglaló <small>(szállásadói)</small>',
                 ]
             ],
             'crm' => [
