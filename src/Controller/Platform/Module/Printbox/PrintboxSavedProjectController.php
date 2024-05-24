@@ -147,11 +147,20 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
             }
      * */
     // create route to save user printbox project
-    #[Route('/{_locale}/module/printbox/saved-projects/save', name: 'module_printbox_saved_projects_save')]
+    #[Route('/{_locale<\w+>?en}/module/printbox/saved-projects/save', name: 'module_printbox_saved_projects_save', defaults: ['_locale' => 'en'], methods: ['POST'])]
     public function saveUserPrintboxProject(Request $request, ManagerRegistry $doctrine, PrintboxSavedProjectRepository $repository): JsonResponse
     {
         $content = $request->getContent();
+
+        if ($content==='') {
+            return new JsonResponse('No content', 400);
+        }
+
         $json = json_decode($content, true);
+
+        if ($json===null) {
+            return new JsonResponse('Invalid JSON', 400);
+        }
 
         $savedProject = new SavedProjects();
         $savedProject->setProjectTitle($json['projectTitle']);
@@ -170,6 +179,9 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
         $em->persist($savedProject);
         $em->flush();
 
-        return new JsonResponse($json);
+        $response = new JsonResponse($json);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 }
