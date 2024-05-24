@@ -64,8 +64,10 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
         $dataList = $repository->findBy(['customer' => $customer]);
         $normalizedDataList = $serializer->normalize($dataList);
 
-        // return with PrintboxSavedProjects from datalist as JSON
-        return new JsonResponse($normalizedDataList);
+        $response = new JsonResponse($normalizedDataList);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 
     /*
