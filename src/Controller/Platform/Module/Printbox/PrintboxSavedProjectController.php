@@ -94,11 +94,14 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
     {
         $result = $repository->removeSavedProject($id, $customer, $projectHash);
 
+        return new Response($result);
+        /*
         if ($result) {
             return $this->redirectToRoute('module_printbox_saved_projects_list');
         }
 
         return $this->redirectToRoute('module_printbox_saved_projects_list');
+        */
     }
 
     /*

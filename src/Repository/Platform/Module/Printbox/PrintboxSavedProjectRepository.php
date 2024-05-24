@@ -47,9 +47,9 @@ class PrintboxSavedProjectRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function removeSavedProject(int $id, string $customer, string $projectHash)
+    public function removeSavedProject(int $id, string $customer, string $projectHash): int
     {
-        $qb = $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('p')
             ->delete()
             ->where('p.id = :id')
             ->andWhere('p.customer = :customer')
