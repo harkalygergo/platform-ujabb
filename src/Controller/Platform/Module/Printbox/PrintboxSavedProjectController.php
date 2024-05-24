@@ -7,6 +7,7 @@ use App\Entity\Platform\Module\Printbox\SavedProjects;
 use App\Repository\Platform\Module\Printbox\PrintboxSavedProjectRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -90,11 +91,19 @@ class PrintboxSavedProjectController extends _PlatformAbstractController
             }*/
     // create route to remove saved project by id, customer and projectHash
     #[Route('/{_locale}/module/printbox/saved-projects/remove/{id}/{customer}/{projectHash}', name: 'module_printbox_saved_projects_remove')]
-    public function removeCustomerSavedProject(Request $request, PrintboxSavedProjectRepository $repository, int $id, string $customer, string $projectHash): Response
+    public function removeCustomerSavedProject(Request $request, PrintboxSavedProjectRepository $repository, int $id, string $customer, string $projectHash): RedirectResponse
     {
-        $result = $repository->removeSavedProject($id, $customer, $projectHash);
+        $repository->removeSavedProject($id, $customer, $projectHash);
+        $referer = $request->headers->get('referer');
 
-        return new Response($result);
+        // If referer is not available, set a default route to redirect to
+        if (!$referer) {
+            $referer = $this->generateUrl('default_route'); // Replace 'default_route' with your actual route name
+        }
+
+        // Redirect to the referrer
+        return new RedirectResponse($referer);
+
         /*
         if ($result) {
             return $this->redirectToRoute('module_printbox_saved_projects_list');
