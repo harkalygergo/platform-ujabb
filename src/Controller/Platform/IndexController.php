@@ -2,8 +2,10 @@
 
 namespace App\Controller\Platform;
 
+use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,16 +34,10 @@ class IndexController extends _PlatformAbstractController
     #[Route('/{_locale}/admin/account/edit', name: 'account_edit')]
     public function accountEdit(Request $request, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher): Response
     {
-        // creates a task object and initializes some data for this example
-        $user = new User();
+        $user = $this->getUser();
 
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('password', PasswordType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -50,6 +46,35 @@ class IndexController extends _PlatformAbstractController
                 'attr' => [
                     'class' => 'form-control'
                 ]
+            ])
+            ->add('position', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('profileImageUrl', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices'  => array_flip($user->getRoles()),
+                'multiple' => true,
+                'expanded' => true,
+                'disabled' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('defaultInstance', EntityType::class, [
+                'class' => Instance::class,
+                'choice_label' => 'title',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'disabled' => true
             ])
             ->add('language', ChoiceType::class, [
                 'choices'  => [
