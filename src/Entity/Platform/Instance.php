@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\InstanceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +32,10 @@ class Instance
 
     #[ORM\Column(length: 8)]
     private int $status = 0;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instances')]
+    #[ORM\JoinTable(name: 'user_instance')]
+    private $users;
 
     public function getId(): ?int
     {
@@ -127,5 +132,15 @@ class Instance
         $this->users->removeElement($param);
 
         return $this;
+    }
+
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
     }
 }
