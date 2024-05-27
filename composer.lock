@@ -2836,16 +2836,16 @@
         },
         {
             "name": "shopify/shopify-api",
-            "version": "v5.5.0",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Shopify/shopify-api-php.git",
-                "reference": "48d775f956b5ebec90f06200baca627fd07a9089"
+                "reference": "ed791f37706744578890d3a4b7ab8a7b9cfd7900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Shopify/shopify-api-php/zipball/48d775f956b5ebec90f06200baca627fd07a9089",
-                "reference": "48d775f956b5ebec90f06200baca627fd07a9089",
+                "url": "https://api.github.com/repos/Shopify/shopify-api-php/zipball/ed791f37706744578890d3a4b7ab8a7b9cfd7900",
+                "reference": "ed791f37706744578890d3a4b7ab8a7b9cfd7900",
                 "shasum": ""
             },
             "require": {
@@ -2904,9 +2904,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Shopify/shopify-api-php/issues",
-                "source": "https://github.com/Shopify/shopify-api-php/tree/v5.5.0"
+                "source": "https://github.com/Shopify/shopify-api-php/tree/v5.5.1"
             },
-            "time": "2024-04-18T13:13:18+00:00"
+            "time": "2024-05-24T17:38:32+00:00"
         },
         {
             "name": "symfony/asset",
