@@ -114,4 +114,18 @@ class Instance
     {
         $this->status = $status;
     }
+
+    public function addUser(User $param)
+    {
+        $this->users[] = $param;
+
+        return $this;
+    }
+
+    public function removeUser(User $param)
+    {
+        $this->users->removeElement($param);
+
+        return $this;
+    }
 }

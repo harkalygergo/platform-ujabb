@@ -43,6 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(name: "default_instance_id")]
     private ?Instance $defaultInstance;
 
+    // add instances many to many
+    #[ORM\ManyToMany(targetEntity: Instance::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_instance')]
+    private Collection $instances;
+
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $position = null;
 
@@ -95,6 +100,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDefaultInstance(?Instance $defaultInstance): void
     {
         $this->defaultInstance = $defaultInstance;
+    }
+
+    /**
+     * @return Collection<int, Instance>
+     */
+    public function getInstances(): Collection
+    {
+        return $this->instances;
+    }
+
+    public function addInstance(Instance $instance): static
+    {
+        if (!$this->instances->contains($instance)) {
+            $this->instances->add($instance);
+            $instance->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInstance(Instance $instance): static
+    {
+        if ($this->instances->removeElement($instance)) {
+            $instance->removeUser($this);
+        }
+
+        return $this;
     }
 
     public function getUsername(): ?string

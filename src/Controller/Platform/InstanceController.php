@@ -24,5 +24,20 @@ class InstanceController extends _PlatformAbstractController
         ]);
     }
 
+    // list instances for user
+    #[Route('/{_locale}/admin/account/instances/', name: 'admin_list_user_instances')]
+    public function listUserInstances(UserInterface $user, Request $request): Response
+    {
+        $dataList = $user->getInstances();
+
+        $data = [
+            'title' => 'Instances',
+            'dataList' => $dataList,
+            'sidebar' => $this->getSidebarMain($request),
+        ];
+
+        return $this->render('platform/backend/v1/list.html.twig', $data);
+    }
+
 
 }

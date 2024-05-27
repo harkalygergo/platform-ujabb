@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends _PlatformAbstractController
@@ -138,5 +139,52 @@ class UserController extends _PlatformAbstractController
         }
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
+    }
+
+
+    // create a route to change password, this is a POST request, ask current password once and new password twice, than update the password if current password is correct and two new passwords are the same
+    #[Route('/{_locale}/admin/account/change-password', name: 'account_change_password')]
+    public function changePassword(Request $request, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $user = $this->getUser();
+        // this form causes problem, regenerate it, problem is: Can't get a way to read the property "newPassword" in class "App\Entity\Platform\User".
+        $form = $this->createFormBuilder($user)
+            ->add('password', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => $translator->trans('global.save'),
+                'attr' => [
+                    'class' => 'btn btn-success w-100 py-2 mt-4'
+                ]
+            ])
+        ->getForm();
+
+        $data = [
+            'title' => '<i class="bi bi-person"></i> Jelszó módosítása',
+            'content' => '',
+            'sidebar' => 'platform/backend/v1/sidebar_profile.html.twig',
+            'form' => $form
+        ];
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ( $user->getPassword() === hash('sha256', $_POST['form']['password1']) ) {
+                if ($_POST['form']['password1'] === $_POST['form']['password2']) {
+                    $hashedPassword = hash('sha256', $_POST['form']['password1']);
+                    $user->setPassword($hashedPassword);
+
+                    $em = $this->doctrine->getManager();
+                    $em->persist($user);
+                    $em->flush();
+                }
+
+                $data['notification'] = $user->getUsername(). ' felhasználó sikeresen létrehozva.';
+            }
+        }
+
+        return $this->render('platform/backend/v1/change-password.html.twig', $data);
     }
 }
