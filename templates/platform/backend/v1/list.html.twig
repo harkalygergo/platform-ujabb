@@ -36,7 +36,15 @@
                         <td>{{ loop.index }}</td>
                         {% if attributes is defined %}
                             {% for attributeKey, attributeValue in attributes %}
-                                <td>{{ attribute(data, attributeKey) }}</td>
+                                <td>
+                                    {% if attribute(data, attributeKey) is iterable %}
+                                        {% for attribute in attribute(data, attributeKey) %}
+                                            {{ attribute }}<br>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ attribute(data, attributeKey) }}
+                                    {% endif %}
+                                </td>
                             {% endfor %}
                         {% else %}
                             <td>{% if data.title is defined %}{{ data.title }}{% endif %}</td>

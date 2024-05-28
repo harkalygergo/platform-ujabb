@@ -53,9 +53,19 @@ class InstanceController extends _PlatformAbstractController
         // users and instances are many-to-many, find all users by instance
         $dataList = $instance->getUsers();
 
+        $attributes = [
+            'username' => 'Username',
+            'fullName' => 'Full Name',
+            'position' => 'Position',
+            'roles' => 'Roles',
+            'language' => 'Language',
+            'status' => 'Status',
+        ];
+
         $data = [
             'title' => 'Users',
             'dataList' => $dataList,
+            'attributes' => $attributes,
             'sidebar' => $this->getSidebarMain($request),
         ];
 
