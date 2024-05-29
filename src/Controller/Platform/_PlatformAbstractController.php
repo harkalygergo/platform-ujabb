@@ -15,17 +15,31 @@ class _PlatformAbstractController extends AbstractController
     private ?array $modules = null;
 
     private array $sidebar = [];
+    private User $user;
 
     #[Required]
     public TranslatorInterface $translator;
 
+    public function getNavigationElements()
+    {
+        return [
+            'admin_website' => '<i class="bi bi-globe2"></i>'. $this->translator->trans('global.website'),
+            'app_task' => '<i class="bi bi-list-task"></i> Feladatkezelő',
+            'admin_module_shopify_order_list' => '<i class="bi bi-basket"></i> Shopify rendelések',
+            'shopify_ecard_list' => '<i class="bi bi-card-list"></i> eCard',
+            'module_printbox_saved_projects_list' => '<i class="bi bi-easel"></i> Mentett tervek',
+        ];
+    }
+
     public function getSidebarElements($request)
     {
+        $navigations = $this->getNavigationElements();
+
         $this->sidebar = [
             'cms' => [
                 'title' => 'CMS | Tartalomkezelés',
                 'elements' => [
-                    $this->generateUrl('admin_website', ['_locale' => $request->getLocale()]) => '<i class="bi bi-globe2"></i>'. $this->translator->trans('global.website'),
+                    $this->generateUrl('admin_website', ['_locale' => $request->getLocale()]) => $navigations['admin_website'],
                     '#webshops' => '<i class="bi bi-cart"></i> Webáruház',
                     '#webapplications' => '<i class="bi bi-window"></i> Webalkalmazás',
                     '#mobilapplications' => '<i class="bi bi-phone"></i> Mobilalkalmazás',
@@ -71,8 +85,8 @@ class _PlatformAbstractController extends AbstractController
             'shopifyXprintbox' => [
                 'title' => 'Shopify X Printbox',
                 'elements' => [
-                    $this->generateUrl('admin_module_shopify_order_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-basket"></i> Rendelések',
-                    $this->generateUrl('shopify_ecard_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-card-list"></i> eCard',
+                    $this->generateUrl('admin_module_shopify_order_list', ['_locale' => $request->getLocale()]) => $navigations['admin_module_shopify_order_list'],
+                    $this->generateUrl('shopify_ecard_list', ['_locale' => $request->getLocale()]) => $navigations['shopify_ecard_list'],
                     '#shopify/customers' => '<i class="bi bi-person-circle"></i> Vevők',
                     '#shopify/google-merchant' => '<i class="bi bi-filetype-xml"></i> Google Merchant XML',
                 ]
@@ -80,7 +94,7 @@ class _PlatformAbstractController extends AbstractController
             'printbox' => [
                 'title' => 'Printbox',
                 'elements' => [
-                    $this->generateUrl('module_printbox_saved_projects_list', ['_locale' => $request->getLocale()]) => '<i class="bi bi-easel"></i> Mentett tervek',
+                    $this->generateUrl('module_printbox_saved_projects_list', ['_locale' => $request->getLocale()]) => $navigations['module_printbox_saved_projects_list'],
                 ]
             ]
         ];
@@ -104,10 +118,11 @@ class _PlatformAbstractController extends AbstractController
 
     public function getSidebarMain(Request $request): string
     {
+        // get current logged in user
         $modules = $this->getModules();
         $sidebarModules = '';
         $sidebarModules .= $this->getSidebarDefaults($request);
-        $sidebarModules .= $this->getSidebarFavourites($request);
+        $sidebarModules .= $this->getSidebarFavourites($request, $this->getUser());
 
         foreach ($modules as $module) {
             $sidebarModules .= $this->getSidebarModuleHTML($request, $module);
@@ -127,15 +142,26 @@ class _PlatformAbstractController extends AbstractController
         );
     }
 
-    private function getSidebarFavourites(Request $request)
+    private function getSidebarFavourites(Request $request, User $user)
     {
+        $navigations = $this->getNavigationElements();
+        // get user favourites
+        $favourites = $user->getFavourites();
+        $elements = [];
+
+        $elements[$this->generateUrl('admin_show_intranet', ['_locale' => $request->getLocale()])] = '<i class="bi bi-info-square"></i> Intranet';
+
+        if ($favourites) {
+            foreach ($favourites as $favourite) {
+                $elements[$this->generateUrl($favourite, ['_locale' => $request->getLocale()])] = $navigations[$favourite];
+            }
+        }
+
         return $this->renderView(
             'platform/backend/v1/_sidebar_template.html.twig',
             [
                 'title' => '<i class="bi bi-star"></i> Kedvencek',
-                'elements' => [
-                    $this->generateUrl('admin_show_intranet', ['_locale' => $request->getLocale()]) => '<i class="bi bi-info-square"></i> Intranet',
-                ]
+                'elements' => $elements
             ]
         );
     }

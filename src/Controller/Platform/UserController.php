@@ -187,4 +187,40 @@ class UserController extends _PlatformAbstractController
 
         return $this->render('platform/backend/v1/change-password.html.twig', $data);
     }
+
+    // create function to add favourites, route is /favourites/add/{{ app.request.get('_route') }}
+    #[Route('/favourites/add/{route}', name: 'favourites_add')]
+    public function addFavourite(Request $request, TranslatorInterface $translator, string $route): Response
+    {
+        $route = $request->get('route');
+        $user = $this->getUser();
+        $favourites = $user->getFavourites();
+        $favourites[] = $route;
+        $user->setFavourites($favourites);
+
+        $em = $this->doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute($route);
+    }
+
+    // create a function to remove favourites, route is /favourites/remove/{{ app.request.get('_route') }}
+    #[Route('/favourites/remove/{route}', name: 'favourites_remove')]
+    public function removeFavourite(Request $request, TranslatorInterface $translator, string $route): Response
+    {
+        $route = $request->get('route');
+        $user = $this->getUser();
+        $favourites = $user->getFavourites();
+        $favourites = array_diff($favourites, [$route]);
+        $user->setFavourites($favourites);
+
+        $em = $this->doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        // redirect user the page where the favourite was removed from
+        return $this->redirectToRoute($route);
+    }
+
 }

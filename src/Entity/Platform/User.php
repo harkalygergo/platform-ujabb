@@ -44,8 +44,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Instance $defaultInstance;
 
     // add instances many to many
-    #[ORM\ManyToMany(targetEntity: Instance::class, inversedBy: 'users')]
-    #[ORM\JoinTable(name: 'user_instance')]
+    #[ORM\ManyToMany(targetEntity: Instance::class, mappedBy: 'users')]
+    //#[ORM\JoinTable(name: 'user_instance')]
     private Collection $instances;
 
     #[ORM\Column(length: 32, nullable: true)]
@@ -72,6 +72,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // add profile image url, default null
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profileImageUrl = null;
+
+    // add favourites as collection of route names
+    #[ORM\Column(type: Types::JSON)]
+    private ?array $favourites = null;
 
     public function __construct()
     {
@@ -125,6 +129,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->instances->removeElement($instance)) {
             $instance->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function setInstances(Collection $instances): static
+    {
+        $this->instances = $instances;
 
         return $this;
     }
@@ -262,6 +273,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfileImageUrl(?string $profileImageUrl): static
     {
         $this->profileImageUrl = $profileImageUrl;
+
+        return $this;
+    }
+
+    public function getFavourites(): ?array
+    {
+        return $this->favourites;
+    }
+
+    public function setFavourites(?array $favourites): static
+    {
+        $this->favourites = $favourites;
+
+        return $this;
+    }
+
+    public function addFavourite(string $favourite): static
+    {
+        if (!in_array($favourite, $this->favourites)) {
+            $this->favourites[] = $favourite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavourite(string $favourite): static
+    {
+        if (in_array($favourite, $this->favourites)) {
+            $key = array_search($favourite, $this->favourites);
+            unset($this->favourites[$key]);
+        }
+
+        return $this;
+    }
+
+    public function hasFavourite(string $favourite): bool
+    {
+        return in_array($favourite, $this->favourites);
+    }
+
+    public function clearFavourites(): static
+    {
+        $this->favourites = [];
+
+        return $this;
+    }
+
+    public function getFavouritesCount(): int
+    {
+        return count($this->favourites);
+    }
+
+    public function isFavouritesEmpty(): bool
+    {
+        return empty($this->favourites);
+    }
+
+    public function getFavouritesAsString(): string
+    {
+        return implode(',', $this->favourites);
+    }
+
+    public function setFavouritesFromString(string $favourites): static
+    {
+        $this->favourites = explode(',', $favourites);
 
         return $this;
     }

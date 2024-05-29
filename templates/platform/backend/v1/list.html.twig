@@ -7,7 +7,12 @@
         </div>
         <div class="col-sm-6 text-end">
             {% if new is not defined or new %}
-                <a href="new/" class="btn btn-success btn-lg"> + {{ 'global.add new'|trans }}</a>
+                <a href="new/" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i> {{ 'global.add new'|trans }}</a>
+            {% endif %}
+            {% if app.request.get('_route') in app.user.favourites %}
+                <a href="/favourites/remove/{{ app.request.get('_route') }}" class="btn btn-danger"><i class="bi bi-heart-fill"></i></a>
+            {% else %}
+                <a href="/favourites/add/{{ app.request.get('_route') }}" class="btn btn-danger"><i class="bi bi-heart"></i></a>
             {% endif %}
         </div>
     </div>
