@@ -1,0 +1,82 @@
+{% extends 'platform/backend/v1/base.html.twig' %}
+
+{% set hasPrintboxProject = false %}
+
+{% block main %}
+    <h1>{{ title|raw }}</h1>
+    <table class="table table-responsive">
+        <tr>
+            <th>ID</th>
+            <td><a target="_blank" href="https://admin.shopify.com/store/0943b6-2/orders/{{ order.id }}">{{ order.id }}</a></td>
+        </tr>
+        <tr>
+            <th>Customer</th>
+            <td><a target="_blank" href="https://admin.shopify.com/store/0943b6-2/customers/{{ order.customer.id }}">{{ order.customer.id }}</a></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ order.name }}</td>
+        </tr>
+        <tr>
+            <th>Dátum</th>
+            <td>{{ order.created_at }}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{{ order.email }}</td>
+        </tr>
+        <tr>
+            <th>Total price</th>
+            <td>{{ order.total_price }} {{ order.currency }}</td>
+        </tr>
+        <tr>
+            <th>Fizetési státusz</th>
+            <td>{{ order.financial_status }}</td>
+        </tr>
+        <tr>
+            <th>Termékek</th>
+            <td>
+                {% for line_item in order.line_items %}
+                    {% if line_item.sku == 'priority-option' %}
+                        <div class="alert alert-danger" role="alert">
+                            <a target="_blank" rel="nofollow" href="https://www.{{ line_item.vendor }}/variants/{{ line_item.variant_id }}">{{ line_item.name }}</a> :: {{ line_item.sku }} :: {{ line_item.quantity }} darab
+                        </div>
+                    {% elseif line_item.sku == 'control-option' %}
+                        <div class="alert alert-info" role="alert">
+                            <a target="_blank" rel="nofollow" href="https://www.{{ line_item.vendor }}/variants/{{ line_item.variant_id }}">{{ line_item.name }}</a> :: {{ line_item.sku }} :: {{ line_item.quantity }} darab
+                        </div>
+                    {% else %}
+                        <a target="_blank" rel="nofollow" href="https://www.{{ line_item.vendor }}/variants/{{ line_item.variant_id }}">{{ line_item.name }}</a> :: {{ line_item.sku }} :: {{ line_item.quantity }} darab
+                        {% if line_item.properties is not empty %}
+                            {% for property in line_item.properties %}
+                                {% if property.name == 'Project' %}
+                                    {% set hasPrintboxProject = true %}
+                                    <p>
+                                        {{ property.value }}
+                                        <br>
+                                        <!--a class="btn btn-primary" target="_blank" href="https://www.paperstories.hu/products/'.$product['handle'].'?updatePrintboxProject=true&variant='.$line_item['variant_id'] . '#projectId='.$property['value'].'">Honlap szerkesztő</a-->
+                                        <a class="btn btn-primary" target="_blank" href="https://paperstories-eu-pbx2.getprintbox.com/pb-admin/project/{{ property.value }}/">Printbox szerkesztő</a>
+                                    </p>
+                                    <p>
+                                        <small>
+                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=update&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">felhasználóhoz rendelés</a>
+                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=validate&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelhetőség ellenőrzése</a>
+                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=order&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">Printbox rendelés készítése</a>
+                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=paid&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelés fizetettnek jelölése</a>
+                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=view&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank"><code>render_status</code> ellenőrzés</a>
+                                            <a class="btn btn-sm btn-secondary" href="#https://storage.googleapis.com/pbx2-paperstories-eu/renders/'.$property['value'].'.tar" target="_blank">PDF letöltése (.tar)</a>
+                                        </small>
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                    <hr>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    {% if hasPrintboxProject %}
+        <a class="btn btn-success btn-lg" href="#/app.php?action=goThroughPrintboxProcess&orderID='.$order['id'].'">Printbox folyamatindítás, rendelés készítése, PDF generálása - nem visszavonható</a>
+    {% endif %}
+{% endblock %}

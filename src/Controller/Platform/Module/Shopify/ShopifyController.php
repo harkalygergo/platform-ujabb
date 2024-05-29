@@ -3,7 +3,9 @@
 namespace App\Controller\Platform\Module\Shopify;
 
 use App\Controller\Platform\_PlatformAbstractController;
+use App\Controller\Platform\Module\Printbox\PrintboxController;
 use App\Entity\Platform\User;
+use Shopifier\Printbox;
 use Shopify\Auth\FileSessionStorage;
 use Shopify\Clients\HttpResponse;
 use Shopify\Clients\Rest;
@@ -34,7 +36,12 @@ class ShopifyController extends _PlatformAbstractController
                 'name'  => 'Megnevezés',
                 'email' => 'Email',
                 'total_price' => 'Total Price',
+                'financial_status' => 'Fizetési státusz',
                 'created_at' => 'Created At',
+            ];
+
+            $buttons = [
+                '/manage/' => 'kezelés',
             ];
 
             $data = [
@@ -42,14 +49,32 @@ class ShopifyController extends _PlatformAbstractController
                 'attributes'=> $attributes,
                 'dataList'  => $orders,
                 'new'       => false,
+                'buttons'   => $buttons,
                 'sidebar' => $this->getSidebarMain($request),
             ];
 
             return $this->render('platform/backend/v1/list.html.twig', $data);
         }
 
-        return new Response('No orders found');
+        return $this->render('platform/backend/v1/content.html.twig', [
+            'title'     => '<i class="bi bi-basket"></i> Shopify rendelések',
+            'content' => 'No orders found',
+            'sidebar' => $this->getSidebarMain($request),
+        ]);
     }
+
+    #[Route('/{_locale}/admin/module/shopify/order/{orderID}/manage', name: 'admin_module_shopify_order_manage')]
+    public function shopifyOrderManage(Request $request, PrintboxController $printboxController, int $orderID): Response
+    {
+        $order = $this->getOrder($orderID);
+
+        return $this->render('platform/backend/v1/module/shopify/order-manager.html.twig', [
+            'title'     => 'Shopify rendelés kezelése',
+            'order' => $order,
+            'sidebar' => $this->getSidebarMain($request),
+        ]);
+    }
+
 
     public function getConfig(): array
     {
@@ -107,5 +132,19 @@ class ShopifyController extends _PlatformAbstractController
             isEmbeddedApp: true,
             isPrivateApp: false,
         );
+    }
+
+    private function getOrder(int $orderID)
+    {
+        $response = $this->getResponse('orders/' . $orderID);
+
+        return $response->getDecodedBody()['order'];
+    }
+
+    private function getProductBytId(mixed $product_id)
+    {
+        $response = $this->getResponse('products/' . $product_id);
+
+        return $response->getDecodedBody()['product'];
     }
 }
