@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
-    <meta name="description" content="Platform Business Management System admin dashboard">
+    <meta name="description" content="{{ app.request.server.get('PLATFORM_NAME') }} {{ app.request.server.get('PLATFORM_SLOGAN') }} admin dashboard">
     <title>{% if title is defined %}{{ title | striptags }} | {% endif%} {{ app.request.server.get('PLATFORM_NAME') }} | {{ app.request.server.get('PLATFORM_SLOGAN') }}</title>
 
     <!--link rel="shortcut icon" href="{{ asset('img/platform-favicon-700x700.png') }}"-->
