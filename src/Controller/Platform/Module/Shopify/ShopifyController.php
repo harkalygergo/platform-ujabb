@@ -5,7 +5,6 @@ namespace App\Controller\Platform\Module\Shopify;
 use App\Controller\Platform\_PlatformAbstractController;
 use App\Controller\Platform\Module\Printbox\PrintboxController;
 use App\Entity\Platform\User;
-use Shopifier\Printbox;
 use Shopify\Auth\FileSessionStorage;
 use Shopify\Clients\HttpResponse;
 use Shopify\Clients\Rest;
