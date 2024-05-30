@@ -15,6 +15,16 @@ class GoogleMerchantXMLFeedGeneratorController extends _PlatformAbstractControll
         // do nothing
     }
 
+    private function checkDirectory(): void
+    {
+        $dir = 'cdn';
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+    }
+
+
     #[Route('/{_locale}/module/shopify/google-merchant-xml/get', name: 'admin_module_shopify_google_merchant_xml_get')]
     public function getGoogleMerchantXMLFeed(): Response
     {
@@ -33,6 +43,7 @@ class GoogleMerchantXMLFeedGeneratorController extends _PlatformAbstractControll
     #[Route('/{_locale}/alma.xml', name: 'admin_module_shopify_order_listalma')]
     public function generateGoogleMerchantXMLFeed(): Response
     {
+        $this->checkDirectory();
         //header("Access-Control-Allow-Origin: *");
         //header("Content-Type: text/xml; charset=UTF-8");
 
