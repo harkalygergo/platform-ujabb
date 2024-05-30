@@ -48,8 +48,10 @@ class ShopifyController extends _PlatformAbstractController
                 'attributes'=> $attributes,
                 'dataList'  => $orders,
                 'new'       => false,
+                'edit'      => false,
+                'duplicate' => false,
                 'buttons'   => $buttons,
-                'sidebar' => $this->getSidebarMain($request),
+                'sidebar'   => $this->getSidebarMain($request),
             ];
 
             return $this->render('platform/backend/v1/list.html.twig', $data);
@@ -133,7 +135,7 @@ class ShopifyController extends _PlatformAbstractController
         );
     }
 
-    private function getOrder(int $orderID)
+    public function getOrder(int $orderID)
     {
         $response = $this->getResponse('orders/' . $orderID);
 

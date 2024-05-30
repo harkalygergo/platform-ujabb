@@ -78,7 +78,7 @@
     </table>
     <a class="btn btn-warning" href="{{ path('admin_module_shopify_order_list') }}">&laquo; vissza</a>
     {% if hasPrintboxProject %}
-        <a class="btn btn-success btn-lg" href="#/app.php?action=goThroughPrintboxProcess&orderID='.$order['id'].'">Printbox folyamatindítás, rendelés készítése, PDF generálása - nem visszavonható</a>
+        <a target="_blank" class="btn btn-success btn-lg" href="{{ path('module_printbox_order_create', {shopifyOrderId: order.id}) }}">Printbox folyamatindítás, rendelés készítése, PDF generálása - nem visszavonható</a>
     {% endif %}
     <!-- create a back button -->
 {% endblock %}

@@ -2,10 +2,13 @@
 
 namespace App\Controller\Platform\Module\Printbox;
 
+use App\Controller\Platform\_PlatformAbstractController;
 use App\Controller\Platform\Module\Shopify\ShopifyController;
 use App\Entity\Platform\Module\Shopify\ECard;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
-class PrintboxController
+class PrintboxController extends _PlatformAbstractController
 {
     private ?int $printboxUserId;
 
@@ -44,6 +47,43 @@ class PrintboxController
         $this->doPrintboxOrder($order['name'].'-ecard', $payloadProjects);
         // set order paid to start PDF generation
         $this->doPrintboxAction($order['id'], $order['name'].'-ecard', '', 'setOrderPaid');
+    }
+
+    #[Route('/{_locale}/module/printbox/order/{shopifyOrderId}/create', name: 'module_printbox_order_create')]
+    public function createPrintboxOrder(Request $request, ShopifyController $shopifyController, int $shopifyOrderId)
+    {
+        $shopifyOrder = $shopifyController->getOrder($shopifyOrderId);
+        $payloadProjects = [];
+
+        foreach ($shopifyOrder['line_items'] as $orderLineItem) {
+            if (isset($orderLineItem['properties'])) {
+                foreach ($orderLineItem['properties'] as $property) {
+                    if ($property['name']==='Project') {
+                        $this->doPrintboxAction($shopifyOrder['id'], $shopifyOrder['name'], $property['value'], 'addUser');
+                        // is orderable?
+                        $validation = json_decode($this->doPrintboxAction($shopifyOrder['id'], $shopifyOrder['name'], $property['value'], 'validate'), true);
+                        if (!$validation['is_orderable']) {
+                            // throw error, project not orderable
+                            dump($validation);
+                            exit('HIBA: '. $property['value']. ' projekt nem rendelhető');
+                        } else {
+                            $payloadProjects[] = [
+                                'uuid'                          => $property['value'],
+                                'quantity'                      => ($orderLineItem['fulfillable_quantity'] != 0) ? $orderLineItem['fulfillable_quantity'] : 1,
+                                'item_price_net'                => $orderLineItem['price'],
+                                'item_price_net_incl_discount'  => $orderLineItem['price'],
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        // create order
+        $this->doPrintboxOrder($shopifyOrder['name'], $payloadProjects);
+        // set order paid to start PDF generation
+        $this->doPrintboxAction($shopifyOrder['id'], $shopifyOrder['name'], '', 'setOrderPaid');
+
+        return $this->redirectToRoute('admin_module_shopify_order_list');
     }
 
     public function doPrintboxOrder($orderName, $payloadProjects)
