@@ -24,6 +24,14 @@ class GoogleMerchantXMLFeedGeneratorController extends _PlatformAbstractControll
         }
     }
 
+    // check a function to check if public/cdn/google-merchant-feed.xml file exists, if not, create it
+    private function checkGoogleMerchantXMLFeed(): void
+    {
+        if (!file_exists('cdn/google-merchant-feed.xml')) {
+            $file = fopen('cdn/google-merchant-feed.xml', 'w') or die("Unable to open file!");
+            fclose($file);
+        }
+    }
 
     #[Route('/{_locale}/module/shopify/google-merchant-xml/get', name: 'admin_module_shopify_google_merchant_xml_get')]
     public function getGoogleMerchantXMLFeed(): Response
@@ -44,6 +52,7 @@ class GoogleMerchantXMLFeedGeneratorController extends _PlatformAbstractControll
     public function generateGoogleMerchantXMLFeed(): Response
     {
         $this->checkDirectory();
+        $this->checkGoogleMerchantXMLFeed();
         //header("Access-Control-Allow-Origin: *");
         //header("Content-Type: text/xml; charset=UTF-8");
 
