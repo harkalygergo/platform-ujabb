@@ -45,7 +45,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "ext-curl": "*",
-        "ext-imagick": "*"
+        "ext-imagick": "*",
+        "ext-dom": "*"
     },
     "config": {
         "allow-plugins": {

@@ -148,4 +148,24 @@ class ShopifyController extends _PlatformAbstractController
 
         return $response->getDecodedBody()['product'];
     }
+
+    public function getVariantsByProductId(int $productId): array
+    {
+        $response = $this->getResponse('products/'.$productId.'/variants');
+
+        if (isset($response->getDecodedBody()['variants'])) {
+            return $response->getDecodedBody()['variants'];
+        }
+
+        return [];
+    }
+
+    public function getProductsByCollectionId(int $collectionId=611047965000, int $limit=50): array
+    {
+        $response = $this->getResponse('collections/'.$collectionId.'/products', $limit);
+        $response = $response->getDecodedBody();
+
+        return (array_key_exists('products', $response) ? $response['products'] : []);
+    }
+
 }
