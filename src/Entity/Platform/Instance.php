@@ -4,6 +4,7 @@ namespace App\Entity\Platform;
 
 use App\Repository\Platform\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +37,28 @@ class Instance
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instances')]
     #[ORM\JoinTable(name: 'user_instance')]
     private $users;
+
+    // instanceFile one-to-many relation
+    #[ORM\OneToMany(targetEntity: InstanceFile::class, mappedBy: 'instance')]
+    private Collection $files;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+        $this->users = new ArrayCollection();
+        $this->files = new ArrayCollection();
+    }
+
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function setFiles(Collection $files): void
+    {
+        $this->files = $files;
+    }
 
     public function getId(): ?int
     {
@@ -137,10 +160,5 @@ class Instance
     public function getUsers()
     {
         return $this->users;
-    }
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
     }
 }

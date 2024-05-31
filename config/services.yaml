@@ -8,7 +8,8 @@ parameters:
     # This parameter defines the codes of the locales (languages) enabled in the application
     app.supported_locales: 'en|hu|de'
     app.notifications.email_sender: platform@harkalygergo.hu
-
+    storage_directory: '%kernel.project_dir%/public/storage'
+    
 services:
     # default configuration for services in *this* file
     _defaults:

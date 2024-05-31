@@ -1,6 +1,8 @@
 .env
 .idea/
 /public/cdn/
+public/storage/
+!public/storage/.gitkeep
 
 ###> symfony/framework-bundle ###
 /.env.local

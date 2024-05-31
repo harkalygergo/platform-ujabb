@@ -77,7 +77,7 @@ class _PlatformAbstractController extends AbstractController
             'assets' => [
                 'title' => 'Eszközök',
                 'elements' => [
-                    '#drive' => '<i class="bi bi-hdd"></i> Tárhely',
+                    $this->generateUrl('admin_instance_storage', ['_locale' => $request->getLocale()]) => '<i class="bi bi-hdd"></i> Tárhely',
                     '#clients' => '<i class="bi bi-link-45deg"></i> Link rövidítés',
                     '#exportimport' => '<i class="bi bi-arrow-down-up"></i> Export/import',
                 ]
