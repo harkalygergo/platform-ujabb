@@ -75,7 +75,7 @@
                             {% if duplicate is not defined or duplicate %}
                                 <a class="btn btn-sm btn-warning" href="#"><i class="bi bi-copy"></i> duplikálás</a>
                             {% endif %}
-                            <a class="btn btn-sm btn-secondary entity-delete" href="{{ path('admin_instance_storage_delete', {id: data.id}) }}"><i class="bi bi-trash"></i></a>
+                            <a class="btn btn-sm btn-secondary entity-delete" href="{{ data.id }}/delete"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

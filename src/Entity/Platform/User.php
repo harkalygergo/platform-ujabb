@@ -78,10 +78,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::JSON, nullable: true, options: ["default" => null])]
     private ?array $favourites = null;
 
+    // add UserFiles
+    #[ORM\OneToMany(targetEntity: UserFile::class, mappedBy: 'user')]
+    private Collection $files;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
         $this->billingProfiles = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -339,6 +344,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFavouritesFromString(string $favourites): static
     {
         $this->favourites = explode(',', $favourites);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserFile>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(UserFile $file): static
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(UserFile $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            $file->setUser(null);
+        }
+
+        return $this;
+    }
+
+    public function setFiles(Collection $files): static
+    {
+        $this->files = $files;
+
+        return $this;
+    }
+
+    public function clearFiles(): static
+    {
+        $this->files->clear();
 
         return $this;
     }
