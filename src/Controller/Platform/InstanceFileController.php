@@ -47,6 +47,25 @@ class InstanceFileController extends _PlatformAbstractController
         return $this->render('platform/backend/v1/list.html.twig', $data);
     }
 
+    // create a function to delete a file from the instance as InstanceStorage
+    #[Route('/{_locale}/admin/instance/storage/{id}/delete', name: 'admin_instance_storage_delete')]
+    public function deleteFile(Request $request, InstanceFile $instanceStorage): Response
+    {
+        $entityManager = $this->doctrine->getManager();
+        $entityManager->remove($instanceStorage);
+        $entityManager->flush();
+
+        // remove file to from server with path
+        $file = $this->getParameter('storage_directory').'/instance/'.$this->getUser()->getDefaultInstance()->getId().'/'.$instanceStorage->getPath();
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
+        $this->addFlash('success', 'File deleted successfully.');
+
+        return $this->redirectToRoute('admin_instance_storage');
+    }
+
     // create a form to upload files to the instance as InstanceStorage
     #[Route('/{_locale}/admin/instance/storage/new', name: 'admin_instance_storage_new')]
     public function upload(Request $request, SluggerInterface $slugger): Response
