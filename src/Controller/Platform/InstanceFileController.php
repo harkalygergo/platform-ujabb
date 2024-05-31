@@ -23,7 +23,7 @@ class InstanceFileController extends _PlatformAbstractController
 
     // create a function to list all files uploaded to the instance as InstanceStorage
     #[Route('/{_locale}/admin/instance/storage/', name: 'admin_instance_storage')]
-    public function listFiles(): Response
+    public function listFiles(Request $request): Response
     {
         $instanceStorageRepository = $this->doctrine->getRepository(InstanceFile::class);
         $dataList = $instanceStorageRepository->findBy(['instance' => $this->getUser()->getDefaultInstance()]);
@@ -41,6 +41,7 @@ class InstanceFileController extends _PlatformAbstractController
             'attributes' => $attributes,
             'edit'      => false,
             'duplicate' => false,
+            'sidebar'  => $this->getSidebarMain($request),
         ];
 
         return $this->render('platform/backend/v1/list.html.twig', $data);
