@@ -103,10 +103,18 @@ class ECardController extends _PlatformAbstractController
                         $pdfFile = $pdfFiles['0'];
                         // create jpg from pdf
                         $pdf = new Imagick($pdfFile);
+                        $pdfWidth = $pdf->getImageWidth();
+                        $pdfHeight = $pdf->getImageHeight();
+
+                        $width = $height = 1200;
+                        if ($pdfHeight>$pdfWidth) {
+                            $height = 2132;
+                        }
+
                         $pdf->setIteratorIndex(0);
                         // set image quality to 100 and size is 1200 pixel * 1200 pixel
                         $pdf->setImageCompressionQuality(100);
-                        $pdf->resizeImage(1200, 1200, Imagick::FILTER_LANCZOS, 1, true);
+                        $pdf->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1, true);
                         $pdf->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
                         $pdf->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
                         $pdf->setImageFormat('jpg');
