@@ -106,10 +106,8 @@ class ECardController extends _PlatformAbstractController
                         $pdfWidth = $pdf->getImageWidth();
                         $pdfHeight = $pdf->getImageHeight();
 
-                        $width = $height = 1200;
-                        if ($pdfHeight>$pdfWidth) {
-                            $height = 2132;
-                        }
+                        $width = 1200;
+                        $height = $width * $pdfHeight / $pdfWidth;
 
                         $pdf->setIteratorIndex(0);
                         // set image quality to 100 and size is 1200 pixel * 1200 pixel
