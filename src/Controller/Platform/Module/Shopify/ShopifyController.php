@@ -50,6 +50,7 @@ class ShopifyController extends _PlatformAbstractController
                 'new'       => false,
                 'edit'      => false,
                 'duplicate' => false,
+                'delete'    => false,
                 'buttons'   => $buttons,
                 'sidebar'   => $this->getSidebarMain($request),
             ];
@@ -90,6 +91,7 @@ class ShopifyController extends _PlatformAbstractController
                 'new'       => false,
                 'edit'      => false,
                 'duplicate' => false,
+                'delete'    => false,
                 'buttons'   => $buttons,
                 'sidebar'   => $this->getSidebarMain($request),
             ];

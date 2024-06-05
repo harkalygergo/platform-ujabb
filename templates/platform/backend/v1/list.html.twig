@@ -75,7 +75,9 @@
                             {% if duplicate is not defined or duplicate %}
                                 <a class="btn btn-sm btn-warning" href="#"><i class="bi bi-copy"></i> duplikálás</a>
                             {% endif %}
-                            <a class="btn btn-sm btn-secondary entity-delete" href="{{ data.id }}/delete"><i class="bi bi-trash"></i></a>
+                            {% if delete is not defined or delete %}
+                                <a class="btn btn-sm btn-secondary entity-delete" href="{{ data.id }}/delete"><i class="bi bi-trash"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
