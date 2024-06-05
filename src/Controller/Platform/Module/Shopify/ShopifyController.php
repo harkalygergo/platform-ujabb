@@ -64,6 +64,46 @@ class ShopifyController extends _PlatformAbstractController
         ]);
     }
 
+    #[Route('/{_locale}/admin/module/shopify/order/closed', name: 'admin_module_shopify_order_list_closed')]
+    public function shopifyOrderListClosed(Request $request): Response
+    {
+        $orders = $this->getResponse('orders', 50, ['status' => 'closed'])->getDecodedBody()['orders'];
+
+        if ($orders) {
+            $attributes = [
+                'id'    => 'ID',
+                'name'  => 'Megnevezés',
+                'email' => 'Email',
+                'total_price' => 'Total Price',
+                'financial_status' => 'Fizetési státusz',
+                'created_at' => 'Created At',
+            ];
+
+            $buttons = [
+                '/manage/' => 'kezelés',
+            ];
+
+            $data = [
+                'title'     => '<i class="bi bi-basket"></i> Shopify lezárt rendelések',
+                'attributes'=> $attributes,
+                'dataList'  => $orders,
+                'new'       => false,
+                'edit'      => false,
+                'duplicate' => false,
+                'buttons'   => $buttons,
+                'sidebar'   => $this->getSidebarMain($request),
+            ];
+
+            return $this->render('platform/backend/v1/list.html.twig', $data);
+        }
+
+        return $this->render('platform/backend/v1/content.html.twig', [
+            'title'     => '<i class="bi bi-basket"></i> Shopify lezárt rendelések',
+            'content' => 'No orders found',
+            'sidebar' => $this->getSidebarMain($request),
+        ]);
+    }
+
     #[Route('/{_locale}/admin/module/shopify/order/{orderID}/manage', name: 'admin_module_shopify_order_manage')]
     public function shopifyOrderManage(Request $request, PrintboxController $printboxController, int $orderID): Response
     {
@@ -100,13 +140,15 @@ class ShopifyController extends _PlatformAbstractController
         return $response->getDecodedBody()['orders'];
     }
 
-    public function getResponse(string $path, int $limit = 50, ?string $page_info = null): HttpResponse
+    public function getResponse(string $path, int $limit = 50, ?array $attributes=null): HttpResponse
     {
         $query = [];
         $query['limit'] = $limit;
 
-        if (!is_null($page_info)) {
-            $query['page_info'] = $page_info;
+        if (!is_null($attributes) || !empty($attributes)) {
+            foreach($attributes as $key => $value) {
+                $query[$key] = $value;
+            }
         }
 
         $response = $this->getClient()->get(path: $path, query: $query);

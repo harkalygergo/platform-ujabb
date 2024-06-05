@@ -26,6 +26,7 @@ class _PlatformAbstractController extends AbstractController
             'admin_website' => '<i class="bi bi-globe2"></i>'. $this->translator->trans('global.website'),
             'app_task' => '<i class="bi bi-list-task"></i> Feladatkezelő',
             'admin_module_shopify_order_list' => '<i class="bi bi-basket"></i> Shopify rendelések',
+            'admin_module_shopify_order_list_closed' => '<i class="bi bi-basket"></i> Shopify lezárt rendelések',
             'shopify_ecard_list' => '<i class="bi bi-card-list"></i> eCard',
             'module_printbox_saved_projects_list' => '<i class="bi bi-easel"></i> Mentett tervek',
         ];
@@ -86,6 +87,7 @@ class _PlatformAbstractController extends AbstractController
                 'title' => 'Shopify X Printbox',
                 'elements' => [
                     $this->generateUrl('admin_module_shopify_order_list', ['_locale' => $request->getLocale()]) => $navigations['admin_module_shopify_order_list'],
+                    $this->generateUrl('admin_module_shopify_order_list_closed', ['_locale' => $request->getLocale()]) => $navigations['admin_module_shopify_order_list_closed'],
                     $this->generateUrl('shopify_ecard_list', ['_locale' => $request->getLocale()]) => $navigations['shopify_ecard_list'],
                     '#shopify/customers' => '<i class="bi bi-person-circle"></i> Vevők',
                     '#shopify/google-merchant' => '<i class="bi bi-filetype-xml"></i> Google Merchant XML',

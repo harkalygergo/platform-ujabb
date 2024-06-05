@@ -57,16 +57,18 @@
                                         <!--a class="btn btn-primary" target="_blank" href="https://www.paperstories.hu/products/'.$product['handle'].'?updatePrintboxProject=true&variant='.$line_item['variant_id'] . '#projectId='.$property['value'].'">Honlap szerkesztő</a-->
                                         <a class="btn btn-primary" target="_blank" href="https://paperstories-eu-pbx2.getprintbox.com/pb-admin/project/{{ property.value }}/">Printbox szerkesztő</a>
                                     </p>
-                                    <p>
-                                        <small>
-                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=update&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">felhasználóhoz rendelés</a>
-                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=validate&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelhetőség ellenőrzése</a>
-                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=order&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">Printbox rendelés készítése</a>
-                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=paid&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelés fizetettnek jelölése</a>
-                                            <a class="btn btn-sm btn-secondary" href="#app.php?action=view&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank"><code>render_status</code> ellenőrzés</a>
-                                            <a class="btn btn-sm btn-secondary" href="#https://storage.googleapis.com/pbx2-paperstories-eu/renders/'.$property['value'].'.tar" target="_blank">PDF letöltése (.tar)</a>
-                                        </small>
-                                    </p>
+                                    {% if hasPrintboxProject and order.fulfillment_status == null %}
+                                        <p>
+                                            <small>
+                                                <a class="btn btn-sm btn-secondary" href="#app.php?action=update&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">felhasználóhoz rendelés</a>
+                                                <a class="btn btn-sm btn-secondary" href="#app.php?action=validate&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelhetőség ellenőrzése</a>
+                                                <a class="btn btn-sm btn-secondary" href="#app.php?action=order&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">Printbox rendelés készítése</a>
+                                                <a class="btn btn-sm btn-secondary" href="#app.php?action=paid&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank">rendelés fizetettnek jelölése</a>
+                                                <a class="btn btn-sm btn-secondary" href="#app.php?action=view&orderID='.$order['id'].'&orderName='.$orderNumber.'&project='.$property['value'].'" target="_blank"><code>render_status</code> ellenőrzés</a>
+                                                <a class="btn btn-sm btn-secondary" href="#https://storage.googleapis.com/pbx2-paperstories-eu/renders/'.$property['value'].'.tar" target="_blank">PDF letöltése (.tar)</a>
+                                            </small>
+                                        </p>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -77,7 +79,7 @@
         </tr>
     </table>
     <a class="btn btn-warning" href="{{ path('admin_module_shopify_order_list') }}">&laquo; vissza</a>
-    {% if hasPrintboxProject %}
+    {% if hasPrintboxProject and order.fulfillment_status == null %}
         <a target="_blank" class="btn btn-success btn-lg" href="{{ path('module_printbox_order_create', {shopifyOrderId: order.id}) }}">Printbox folyamatindítás, rendelés készítése, PDF generálása - nem visszavonható</a>
     {% endif %}
     <!-- create a back button -->
