@@ -81,7 +81,7 @@ class ShopifyController extends _PlatformAbstractController
             ];
 
             $buttons = [
-                '/manage/' => 'kezelés',
+                '/manage/' => 'részletek',
             ];
 
             $data = [
