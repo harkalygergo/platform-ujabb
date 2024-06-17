@@ -51,6 +51,23 @@ class WebsiteController extends _PlatformAbstractController
         $entity = new Website();
 
         $form = $this->createFormBuilder($entity)
+            ->add('domain', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            // create robots as choices, options are 'index, follow' and 'noindex, nofollow', etc.
+            ->add('robots', ChoiceType::class, [
+                'choices'  => [
+                    'index, follow' => 'index, follow',
+                    'index, nofollow' => 'index, nofollow',
+                    'noindex, follow' => 'noindex, follow',
+                    'noindex, nofollow' => 'noindex, nofollow',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('title', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
