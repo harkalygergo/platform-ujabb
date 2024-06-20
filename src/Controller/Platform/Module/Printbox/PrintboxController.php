@@ -32,11 +32,19 @@ class PrintboxController extends _PlatformAbstractController
             if (isset($orderLineItem['properties'])) {
                 foreach ($orderLineItem['properties'] as $property) {
                     if ($property['name']==='Project') {
+                        $itemPriceNet = (int)$orderLineItem['price'] / (1+$orderLineItem['tax_lines']['0']['rate']);
+                        $itemPriceNetIncludeDiscount = $itemPriceNet;
+
+                        if (!empty($orderLineItem['discount_allocations'])) {
+                            $itemLineDiscountAmount = $orderLineItem['discount_allocations']['0']['amount'] / $orderLineItem['quantity'];
+                            $itemPriceNetIncludeDiscount = $itemPriceNet - $itemLineDiscountAmount;
+                        }
+
                         $payloadProjects[] = [
                             'uuid'                          => $orderLineItem['properties']['0']['value'],
                             'quantity'                      => ($orderLineItem['fulfillable_quantity'] != 0) ? $orderLineItem['fulfillable_quantity'] : 1,
-                            'item_price_net'                => $orderLineItem['price'],
-                            'item_price_net_incl_discount'  => $orderLineItem['price'],
+                            'item_price_net'                => (int)$itemPriceNet,
+                            'item_price_net_incl_discount'  => (int)$itemPriceNetIncludeDiscount,
                         ];
                     }
                 }
@@ -67,11 +75,19 @@ class PrintboxController extends _PlatformAbstractController
                             dump($validation);
                             exit('HIBA: '. $property['value']. ' projekt nem rendelhető');
                         } else {
+                            $itemPriceNet = (int)$orderLineItem['price'] / (1+$orderLineItem['tax_lines']['0']['rate']);
+                            $itemPriceNetIncludeDiscount = $itemPriceNet;
+
+                            if (!empty($orderLineItem['discount_allocations'])) {
+                                $itemLineDiscountAmount = $orderLineItem['discount_allocations']['0']['amount'] / $orderLineItem['quantity'];
+                                $itemPriceNetIncludeDiscount = $itemPriceNet - $itemLineDiscountAmount;
+                            }
+
                             $payloadProjects[] = [
                                 'uuid'                          => $property['value'],
                                 'quantity'                      => ($orderLineItem['fulfillable_quantity'] != 0) ? $orderLineItem['fulfillable_quantity'] : 1,
-                                'item_price_net'                => $orderLineItem['price'],
-                                'item_price_net_incl_discount'  => $orderLineItem['price'],
+                                'item_price_net'                => (int)$itemPriceNet,
+                                'item_price_net_incl_discount'  => (int)$itemPriceNetIncludeDiscount,
                             ];
                         }
                     }
