@@ -7,6 +7,7 @@ use App\Entity\Platform\WebsitePage;
 use App\Repository\Platform\WebsitePageRepository;
 use App\Repository\Platform\WebsiteRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,7 +27,7 @@ class WebsitePageController extends _PlatformAbstractController
     }
 
     #[Route('/{_locale}/admin/website/{website}/pages/', name: 'admin_website_page_list')]
-    public function list(WebsitePageRepository $repository, WebsiteRepository $websiteRepository, Website $website, Request $request): Response
+    public function list(WebsitePageRepository $repository, Website $website, Request $request): Response
     {
         $dataList = $repository->findByWebsiteId($website->getId());
 
@@ -147,12 +148,15 @@ class WebsitePageController extends _PlatformAbstractController
         $entity = new WebsitePage();
 
         $form = $this->createFormBuilder($entity)
-            // add website_id as hidden input
-            ->add('website', TextType::class, [
-                'data' => $website->getId(),
+            // add website as Website entity, set default value as $website
+            ->add('website', EntityType::class, [
+                'class' => Website::class,
+                'choice_label' => 'title',
+                'data' => $website,
                 'attr' => [
                     'class' => 'form-control',
-                    'hidden' => true
+                    'readonly' => 'readonly',
+                    //'disabled' => true,
                 ]
             ])
             ->add('title', TextType::class, [

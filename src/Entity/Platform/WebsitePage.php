@@ -51,8 +51,8 @@ class WebsitePage
     private \DateTimeInterface $createdAt;
 
     // add updated at datetime, default now
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeInterface $updatedAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt;
 
     // add create by Platform User
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -177,12 +177,12 @@ class WebsitePage
         return $this;
     }
 
-    public function getUpdatedAt(): \DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
